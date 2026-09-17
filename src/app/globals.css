@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8fafc; /* Slate 50 */
+  --foreground: #0f172a; /* Slate 900 */
+  --card: #ffffff;
+  --card-foreground: #0f172a; /* Slate 900 */
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  
+  /* Primary: Indigo 600 */
+  --primary: #4f46e5;
+  --primary-foreground: #ffffff;
+  
+  /* Secondary: Slate 100 */
+  --secondary: #f1f5f9;
+  --secondary-foreground: #1e293b; /* Slate 800 */
+  
+  /* Muted: Slate 100 */
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b; /* Slate 500 */
+  
+  /* Accent: Indigo 50 */
+  --accent: #eef2ff;
+  --accent-foreground: #4338ca; /* Indigo 700 */
+  
+  /* Destructive: Rose 600 */
+  --destructive: #e11d48;
+  --destructive-foreground: #ffffff;
+  
+  /* Success: Emerald 600 */
+  --success: #10b981;
+  --success-foreground: #ffffff;
+  
+  --border: #e2e8f0; /* Slate 200 */
+  --input: #e2e8f0;
+  --ring: #4f46e5; /* Indigo 600 */
+  --radius: 0.75rem; /* Larger modern radius */
+}
+
+.dark {
+  --background: #09090b; /* Very dark slate/zinc */
+  --foreground: #f8fafc;
+  --card: #121214;
+  --card-foreground: #f8fafc;
+  --popover: #121214;
+  --popover-foreground: #f8fafc;
+  
+  /* Primary: Indigo 500 */
+  --primary: #6366f1;
+  --primary-foreground: #ffffff;
+  
+  --secondary: #1e293b; /* Slate 800 */
+  --secondary-foreground: #f8fafc;
+  
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8; /* Slate 400 */
+  
+  --accent: #1e1b4b; /* Deep Indigo */
+  --accent-foreground: #a5b4fc; /* Indigo 300 */
+  
+  --destructive: #be123c;
+  --destructive-foreground: #ffffff;
+  
+  --success: #059669;
+  --success-foreground: #ffffff;
+  
+  --border: #1e293b;
+  --input: #1e293b;
+  --ring: #6366f1;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print-exact, .print-exact * {
+    visibility: visible;
+  }
+  .print-exact {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .print-hidden {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}

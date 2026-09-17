@@ -1,0 +1,664 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id                   String                @id @default(uuid())
+  name                 String
+  email                String                @unique
+  passwordHash         String
+  roles                Role[]
+  status               String                @default("ACTIVE") // ACTIVE, INACTIVE
+  
+  movementsPerformed   StockMovement[]
+  movementsReceived    StockMovement[]       @relation("MovementRecipient")
+  receiptsCreated      StockReceipt[]
+  
+  requestsCreated      MaterialRequest[]     @relation("RequestRequester")
+  requestsApproved     MaterialRequest[]     @relation("RequestApprover")
+  
+  inventoriesCreated   Inventory[]           @relation("InventoryCreator")
+  inventoriesFinished  Inventory[]           @relation("InventoryFinisher")
+  inventoryOperations  InventoryOperator[]
+  inventoryCollections InventoryCollection[]
+  
+  divergencesReviewed  InventoryDivergence[] @relation("DivergenceReviewer")
+  divergencesApproved  InventoryDivergence[] @relation("DivergenceApprover")
+  divergencesRejected  InventoryDivergence[] @relation("DivergenceRejecter")
+  
+  returnsCreated       MaterialReturn[]      @relation("ReturnCreator")
+  returnsReceived      MaterialReturn[]      @relation("ReturnReceiver")
+  
+  transfersCreated     StockTransfer[]       @relation("TransferCreator")
+  transfersCompleted   StockTransfer[]       @relation("TransferCompleter")
+  
+  auditLogs            AuditLog[]            @relation("UserAuditLogs")
+  notifications        Notification[]        @relation("UserNotifications")
+  systemSettings       SystemSetting[]       @relation("UserSystemSettings")
+  
+  qrToken              String?               @unique
+  qrStatus             String                @default("ACTIVE") // ACTIVE, REVOKED
+  worksiteAccesses     UserWorksiteAccess[]
+  quickIssuesReceived  QuickIssue[]          @relation("IssueRecipient")
+  quickIssuesPerformed QuickIssue[]          @relation("IssueOperator")
+  
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+}
+
+model Role {
+  id          String           @id @default(uuid())
+  name        String           @unique
+  description String?
+  users       User[]
+  permissions RolePermission[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model Permission {
+  id          String           @id @default(uuid())
+  key         String           @unique
+  name        String
+  description String?
+  roles       RolePermission[]
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+}
+
+model ProductCategory {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String?
+  status      String    @default("ACTIVE")
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model ProductUnit {
+  id            String                @id @default(uuid())
+  code          String                @unique
+  name          String
+  description   String?
+  status        String                @default("ACTIVE")
+  products      Product[]
+  requestItems  MaterialRequestItem[]
+  returnItems   MaterialReturnItem[]
+  transferItems StockTransferItem[]
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+}
+
+model Product {
+  id                   String                    @id @default(uuid())
+  code                 String                    @unique
+  barcode              String?
+  name                 String
+  shortDescription     String?
+  categoryId           String
+  category             ProductCategory           @relation(fields: [categoryId], references: [id])
+  unitId               String
+  unit                 ProductUnit               @relation(fields: [unitId], references: [id])
+  brand                String?
+  model                String?
+  minimumStock         Int                       @default(0)
+  maximumStock         Int                       @default(0)
+  averageCost          Decimal?                  @db.Decimal(16, 6)
+  defaultLocationId    String?
+  defaultLocation      WarehouseLocation?        @relation(fields: [defaultLocationId], references: [id])
+  status               String                    @default("ACTIVE") // ACTIVE, INACTIVE
+  notes                String?
+  
+  stocks               Stock[]
+  movements            StockMovement[]
+  receiptItems         StockReceiptItem[]
+  requestItems         MaterialRequestItem[]
+  inventoryItems       InventoryCollectionItem[]
+  inventoryDivergences InventoryDivergence[]
+  returnItems          MaterialReturnItem[]
+  transferItems        StockTransferItem[]
+  quickIssueItems      QuickIssueItem[]
+  
+  createdAt            DateTime                  @default(now())
+  updatedAt            DateTime                  @updatedAt
+}
+
+model Warehouse {
+  id                   String              @id @default(uuid())
+  name                 String
+  code                 String              @unique
+  description          String?
+  status               String              @default("ACTIVE")
+  
+  worksiteId           String?
+  worksite             Worksite?           @relation(fields: [worksiteId], references: [id])
+  
+  locations            WarehouseLocation[]
+  stocks               Stock[]
+  movements            StockMovement[]
+  receipts             StockReceipt[]
+  requests             MaterialRequest[]
+  inventories          Inventory[]
+  returns              MaterialReturn[]
+  transfersSource      StockTransfer[]     @relation("TransferSourceWarehouse")
+  transfersDestination StockTransfer[]     @relation("TransferDestinationWarehouse")
+  quickIssues          QuickIssue[]
+  
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+}
+
+model WarehouseLocation {
+  id                   String                @id @default(uuid())
+  warehouseId          String
+  warehouse            Warehouse             @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
+  code                 String                @unique
+  name                 String
+  description          String?
+  status               String                @default("ACTIVE")
+  
+  parentId             String?
+  parent               WarehouseLocation?    @relation("LocationHierarchy", fields: [parentId], references: [id])
+  children             WarehouseLocation[]   @relation("LocationHierarchy")
+  
+  products             Product[]
+  stocks               Stock[]
+  movements            StockMovement[]
+  receiptItems         StockReceiptItem[]
+  inventoryLocations   InventoryLocation[]
+  inventoryCollections InventoryCollection[]
+  inventoryDivergences InventoryDivergence[]
+  returnItems          MaterialReturnItem[]
+  transfersSource      StockTransfer[]       @relation("TransferSourceLocation")
+  transfersDestination StockTransfer[]       @relation("TransferDestinationLocation")
+  quickIssueItems      QuickIssueItem[]
+  
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+}
+
+model Stock {
+  id               String            @id @default(uuid())
+  productId        String
+  product          Product           @relation(fields: [productId], references: [id])
+  warehouseId      String
+  warehouse        Warehouse         @relation(fields: [warehouseId], references: [id])
+  locationId       String
+  location         WarehouseLocation @relation(fields: [locationId], references: [id])
+  quantity         Int
+  reservedQuantity Int               @default(0)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  @@unique([productId, locationId])
+  @@index([warehouseId])
+  @@index([locationId])
+  @@index([quantity])
+}
+
+model StockMovement {
+  id             String            @id @default(uuid())
+  productId      String
+  product        Product           @relation(fields: [productId], references: [id])
+  warehouseId    String
+  warehouse      Warehouse         @relation(fields: [warehouseId], references: [id])
+  locationId     String
+  location       WarehouseLocation @relation(fields: [locationId], references: [id])
+  type           String // ENTRY, EXIT, ADJUSTMENT_IN, ADJUSTMENT_OUT, TRANSFER_IN, TRANSFER_OUT, RETURN
+  quantity       Int
+  unitCost       Decimal?          @db.Decimal(16, 6)
+  totalCost      Decimal?          @db.Decimal(10, 2)
+  referenceType  String? // RECEIPT, INVENTORY_ADJUSTMENT, TRANSFER, MATERIAL_REQUEST, MATERIAL_RETURN, QUICK_ISSUE
+  referenceId    String?
+  documentNumber String?
+  reason         String?
+  notes          String?
+  performedById  String
+  performedBy    User              @relation(fields: [performedById], references: [id])
+  recipientUserId String?
+  recipientUser  User?             @relation("MovementRecipient", fields: [recipientUserId], references: [id])
+  worksiteId     String?
+  worksite       Worksite?         @relation(fields: [worksiteId], references: [id])
+  createdAt      DateTime          @default(now())
+
+  @@index([productId])
+  @@index([warehouseId])
+  @@index([locationId])
+  @@index([type])
+  @@index([createdAt])
+}
+
+model Supplier {
+  id        String         @id @default(uuid())
+  name      String
+  tradeName String?
+  document  String?        @unique
+  email     String?
+  phone     String?
+  address   String?
+  city      String?
+  state     String?
+  zipCode   String?
+  notes     String?
+  status    String         @default("ACTIVE")
+  receipts  StockReceipt[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+model StockReceipt {
+  id             String             @id @default(uuid())
+  supplierId     String
+  supplier       Supplier           @relation(fields: [supplierId], references: [id])
+  warehouseId    String
+  warehouse      Warehouse          @relation(fields: [warehouseId], references: [id])
+  documentNumber String?
+  documentDate   DateTime?
+  receivedAt     DateTime?
+  status         String             @default("DRAFT") // DRAFT, COMPLETED, CANCELLED
+  subtotal       Decimal?           @db.Decimal(10, 2)
+  total          Decimal?           @db.Decimal(10, 2)
+  notes          String?
+  createdById    String
+  createdBy      User               @relation(fields: [createdById], references: [id])
+  items          StockReceiptItem[]
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+}
+
+model StockReceiptItem {
+  id         String            @id @default(uuid())
+  receiptId  String
+  receipt    StockReceipt      @relation(fields: [receiptId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product           @relation(fields: [productId], references: [id])
+  locationId String
+  location   WarehouseLocation @relation(fields: [locationId], references: [id])
+  quantity   Int
+  unitCost   Decimal?          @db.Decimal(16, 6)
+  totalCost  Decimal?          @db.Decimal(10, 2)
+  notes      String?
+}
+
+model MaterialRequest {
+  id            String                @id @default(uuid())
+  requestNumber String                @unique
+  requesterId   String
+  requester     User                  @relation("RequestRequester", fields: [requesterId], references: [id])
+  warehouseId   String
+  warehouse     Warehouse             @relation(fields: [warehouseId], references: [id])
+  status        String                @default("DRAFT") // DRAFT, PENDING_APPROVAL, APPROVED, REJECTED, IN_SEPARATION, PARTIALLY_FULFILLED, FULFILLED, CANCELLED
+  priority      String                @default("NORMAL") // LOW, NORMAL, HIGH, URGENT
+  notes         String?
+  approvedById  String?
+  approvedBy    User?                 @relation("RequestApprover", fields: [approvedById], references: [id])
+  requestedAt   DateTime?
+  approvedAt    DateTime?
+  fulfilledAt   DateTime?
+  completedAt   DateTime?
+  items         MaterialRequestItem[]
+  returns       MaterialReturn[]
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+
+  @@index([requesterId])
+  @@index([warehouseId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model MaterialRequestItem {
+  id                String          @id @default(uuid())
+  requestId         String
+  request           MaterialRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  productId         String
+  product           Product         @relation(fields: [productId], references: [id])
+  unitId            String
+  unit              ProductUnit     @relation(fields: [unitId], references: [id])
+  requestedQuantity Int
+  approvedQuantity  Int             @default(0)
+  separatedQuantity Int             @default(0)
+  deliveredQuantity Int             @default(0)
+  notes             String?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+}
+
+model Inventory {
+  id           String                @id @default(uuid())
+  code         String                @unique
+  name         String
+  warehouseId  String
+  warehouse    Warehouse             @relation(fields: [warehouseId], references: [id])
+  status       String                @default("DRAFT") // DRAFT, READY, IN_PROGRESS, COUNTING, CONFERENCE, COMPLETED, CANCELLED
+  type         String                @default("FULL") // FULL, PARTIAL, CYCLE_COUNT
+  notes        String?
+  startedAt    DateTime?
+  finishedAt   DateTime?
+  createdById  String
+  createdBy    User                  @relation("InventoryCreator", fields: [createdById], references: [id])
+  finishedById String?
+  finishedBy   User?                 @relation("InventoryFinisher", fields: [finishedById], references: [id])
+  locations    InventoryLocation[]
+  operators    InventoryOperator[]
+  collections  InventoryCollection[]
+  divergences  InventoryDivergence[]
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+}
+
+model InventoryLocation {
+  id          String            @id @default(uuid())
+  inventoryId String
+  inventory   Inventory         @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  locationId  String
+  location    WarehouseLocation @relation(fields: [locationId], references: [id])
+  status      String            @default("PENDING") // PENDING, IN_PROGRESS, COMPLETED
+  startedAt   DateTime?
+  finishedAt  DateTime?
+
+  @@unique([inventoryId, locationId])
+}
+
+model InventoryOperator {
+  id          String    @id @default(uuid())
+  inventoryId String
+  inventory   Inventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+
+  @@unique([inventoryId, userId])
+}
+
+model InventoryCollection {
+  id          String                    @id @default(uuid())
+  inventoryId String
+  inventory   Inventory                 @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  locationId  String
+  location    WarehouseLocation         @relation(fields: [locationId], references: [id])
+  operatorId  String
+  operator    User                      @relation(fields: [operatorId], references: [id])
+  status      String                    @default("OPEN") // OPEN, IN_PROGRESS, SUBMITTED, CANCELLED
+  startedAt   DateTime?
+  finishedAt  DateTime?
+  items       InventoryCollectionItem[]
+  createdAt   DateTime                  @default(now())
+  updatedAt   DateTime                  @updatedAt
+}
+
+model InventoryCollectionItem {
+  id           String              @id @default(uuid())
+  collectionId String
+  collection   InventoryCollection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  productId    String
+  product      Product             @relation(fields: [productId], references: [id])
+  quantity     Int
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+}
+
+model InventoryDivergence {
+  id              String            @id @default(uuid())
+  inventoryId     String
+  inventory       Inventory         @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  locationId      String
+  location        WarehouseLocation @relation(fields: [locationId], references: [id])
+  productId       String
+  product         Product           @relation(fields: [productId], references: [id])
+  systemQuantity  Int
+  countedQuantity Int
+  difference      Int
+  status          String            @default("PENDING") // PENDING, REVIEWED, APPROVED, REJECTED, ADJUSTED
+  notes           String?
+  
+  // Trilha de auditoria da análise
+  reviewedById    String?
+  reviewedBy      User?             @relation("DivergenceReviewer", fields: [reviewedById], references: [id])
+  reviewedAt      DateTime?
+  reviewNotes     String?
+  
+  approvedById    String?
+  approvedBy      User?             @relation("DivergenceApprover", fields: [approvedById], references: [id])
+  approvedAt      DateTime?
+  approvalNotes   String?
+  
+  rejectedById    String?
+  rejectedBy      User?             @relation("DivergenceRejecter", fields: [rejectedById], references: [id])
+  rejectedAt      DateTime?
+  rejectionReason String?
+
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+// ==========================================
+// ETAPA 7 - DEVOLUÇÕES E TRANSFERÊNCIAS
+// ==========================================
+
+model MaterialReturn {
+  id            String               @id @default(uuid())
+  returnNumber  String               @unique
+  warehouseId   String
+  warehouse     Warehouse            @relation(fields: [warehouseId], references: [id])
+  requestId     String?
+  request       MaterialRequest?     @relation(fields: [requestId], references: [id])
+  
+  returnedById  String
+  returnedBy    User                 @relation("ReturnCreator", fields: [returnedById], references: [id])
+  receivedById  String?
+  receivedBy    User?                @relation("ReturnReceiver", fields: [receivedById], references: [id])
+  
+  status        String               @default("DRAFT") // DRAFT, RECEIVED, CANCELLED
+  reason        String?
+  notes         String?
+  
+  items         MaterialReturnItem[]
+  
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+}
+
+model MaterialReturnItem {
+  id            String            @id @default(uuid())
+  returnId      String
+  return        MaterialReturn    @relation(fields: [returnId], references: [id], onDelete: Cascade)
+  productId     String
+  product       Product           @relation(fields: [productId], references: [id])
+  locationId    String
+  location      WarehouseLocation @relation(fields: [locationId], references: [id])
+  
+  quantity      Int
+  unitId        String
+  unit          ProductUnit       @relation(fields: [unitId], references: [id])
+  
+  condition     String            @default("GOOD") // GOOD, DAMAGED, UNUSABLE
+  notes         String?
+  
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+}
+
+model StockTransfer {
+  id                      String              @id @default(uuid())
+  transferNumber          String              @unique
+  
+  sourceWarehouseId       String
+  sourceWarehouse         Warehouse           @relation("TransferSourceWarehouse", fields: [sourceWarehouseId], references: [id])
+  sourceLocationId        String
+  sourceLocation          WarehouseLocation   @relation("TransferSourceLocation", fields: [sourceLocationId], references: [id])
+  
+  destinationWarehouseId  String
+  destinationWarehouse    Warehouse           @relation("TransferDestinationWarehouse", fields: [destinationWarehouseId], references: [id])
+  destinationLocationId   String
+  destinationLocation     WarehouseLocation   @relation("TransferDestinationLocation", fields: [destinationLocationId], references: [id])
+  
+  status                  String              @default("DRAFT") // DRAFT, IN_TRANSIT, COMPLETED, CANCELLED
+  
+  createdById             String
+  createdBy               User                @relation("TransferCreator", fields: [createdById], references: [id])
+  completedById           String?
+  completedBy             User?               @relation("TransferCompleter", fields: [completedById], references: [id])
+  
+  items                   StockTransferItem[]
+  
+  createdAt               DateTime            @default(now())
+  updatedAt               DateTime            @updatedAt
+}
+
+model StockTransferItem {
+  id            String        @id @default(uuid())
+  transferId    String
+  transfer      StockTransfer @relation(fields: [transferId], references: [id], onDelete: Cascade)
+  productId     String
+  product       Product       @relation(fields: [productId], references: [id])
+  quantity      Int
+  unitId        String
+  unit          ProductUnit   @relation(fields: [unitId], references: [id])
+  notes         String?
+  
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+// ==========================================
+// ETAPAS 9 E 10 - ADMIN, RELATÓRIOS E AUDITORIA
+// ==========================================
+
+model Tenant {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  status    String   @default("ACTIVE")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation("UserAuditLogs", fields: [userId], references: [id])
+  action     String
+  entityType String
+  entityId   String
+  metadata   Json?
+  ip         String?
+  userAgent  String?
+  timestamp  DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([entityType, entityId])
+  @@index([timestamp])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation("UserNotifications", fields: [userId], references: [id])
+  type      String
+  title     String
+  message   String
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId, readAt])
+  @@index([createdAt])
+}
+
+model SystemSetting {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  value       String
+  type        String   @default("STRING") // STRING, NUMBER, BOOLEAN, JSON
+  description String?
+  updatedById String
+  updatedBy   User     @relation("UserSystemSettings", fields: [updatedById], references: [id])
+  updatedAt   DateTime @updatedAt
+}
+
+// ==========================================
+// ETAPA 11 - ACESSO POR OBRA E ENTREGA RÁPIDA
+// ==========================================
+
+model Worksite {
+  id          String      @id @default(uuid())
+  code        String      @unique
+  name        String
+  description String?
+  status      String      @default("ACTIVE") // ACTIVE, INACTIVE
+  
+  warehouses  Warehouse[]
+  users       UserWorksiteAccess[]
+  quickIssues QuickIssue[]
+  movements   StockMovement[]
+  
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model UserWorksiteAccess {
+  id                 String   @id @default(uuid())
+  userId             String
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  worksiteId         String
+  worksite           Worksite @relation(fields: [worksiteId], references: [id], onDelete: Cascade)
+  
+  canViewStock       Boolean  @default(true)
+  canRequestMaterial Boolean  @default(false)
+  canUseQuickIssue   Boolean  @default(false)
+  
+  createdAt          DateTime @default(now())
+  
+  @@unique([userId, worksiteId])
+}
+
+model QuickIssue {
+  id              String            @id @default(uuid())
+  issueNumber     String            @unique
+  
+  operatorId      String
+  operator        User              @relation("IssueOperator", fields: [operatorId], references: [id])
+  
+  recipientId     String
+  recipient       User              @relation("IssueRecipient", fields: [recipientId], references: [id])
+  
+  worksiteId      String
+  worksite        Worksite          @relation(fields: [worksiteId], references: [id])
+  
+  warehouseId     String
+  warehouse       Warehouse         @relation(fields: [warehouseId], references: [id])
+  
+  status          String            @default("DRAFT") // DRAFT, COMPLETED, CANCELLED
+  notes           String?
+  
+  items           QuickIssueItem[]
+  
+  createdAt       DateTime          @default(now())
+  completedAt     DateTime?
+}
+
+model QuickIssueItem {
+  id          String            @id @default(uuid())
+  issueId     String
+  issue       QuickIssue        @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product           @relation(fields: [productId], references: [id])
+  locationId  String
+  location    WarehouseLocation @relation(fields: [locationId], references: [id])
+  quantity    Int
+  notes       String?
+}

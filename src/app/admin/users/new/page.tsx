@@ -1,0 +1,37 @@
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import {} from "lucide-react"
+import Link from "next/link"
+import { db } from "@/lib/db"
+import { UserForm } from "./user-form"
+import { BackButton } from "@/components/ui/back-button"
+
+export default async function NewUserPage() {
+  const roles = await db.role.findMany({
+    orderBy: { name: 'asc' }
+  })
+
+  return (
+    <div className="space-y-6 max-w-2xl mx-auto">
+      <div className="flex items-center gap-4 mb-8">
+        <BackButton />
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">Novo Usuário</h2>
+          <p className="text-muted-foreground">Cadastre um novo membro da equipe e defina suas permissões.</p>
+        </div>
+      </div>
+
+      <Card className="rounded-2xl border-border/50 shadow-sm bg-card/50 backdrop-blur-sm">
+        <CardHeader>
+          <CardTitle>Dados do Usuário</CardTitle>
+          <CardDescription>
+            Insira os dados básicos e escolha o perfil adequado para a operação deste funcionário.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <UserForm roles={roles} />
+        </CardContent>
+      </Card>
+    </div>
+  )
+}

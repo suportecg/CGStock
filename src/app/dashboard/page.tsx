@@ -1,0 +1,357 @@
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Package, AlertTriangle, ArrowRightLeft, FileText, Smartphone, RotateCcw } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { db } from "@/lib/db"
+import Link from "next/link"
+import { DashboardCharts } from "./charts"
+import { getSession } from "@/lib/auth"
+import { QRCodeBadge } from "@/components/ui/qr-code-badge"
+import { Button } from "@/components/ui/button"
+import { QrCode, ClipboardList, Clock, CheckCircle2 } from "lucide-react"
+
+async function RequesterDashboard({ user, qrToken }: { user: any, qrToken: string | null }) {
+  const recentRequests = await db.materialRequest.findMany({
+    where: { requesterId: user.userId },
+    orderBy: { createdAt: 'desc' },
+    take: 5,
+    include: {
+      _count: { select: { items: true } }
+    }
+  })
+
+  return (
+    <div className="max-w-4xl mx-auto space-y-8 p-4">
+      <div className="text-center space-y-4 mb-8">
+        <h1 className="text-3xl font-extrabold tracking-tight text-foreground">
+          Olá, {user.name.split(' ')[0]}!
+        </h1>
+        <p className="text-muted-foreground font-medium">
+          Bem-vindo ao seu painel. Mostre o QR Code abaixo ao almoxarife para retiradas rápidas.
+        </p>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-8">
+        {/* QR Code Card */}
+        <Card className="border-indigo-500/20 shadow-lg shadow-indigo-500/5 bg-gradient-to-br from-indigo-50/50 to-white dark:from-indigo-950/20 dark:to-zinc-950">
+          <CardHeader className="text-center pb-2">
+            <CardTitle className="text-lg flex justify-center items-center gap-2">
+              <QrCode className="h-5 w-5 text-indigo-600" />
+              Seu Crachá Digital
+            </CardTitle>
+            <CardDescription>Para uso na Entrega Rápida</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col items-center justify-center p-6">
+            {qrToken ? (
+              <QRCodeBadge 
+                userId={user.userId} 
+                userName={user.name} 
+                qrToken={qrToken} 
+                className="scale-110 shadow-xl border-none" 
+              />
+            ) : (
+              <div className="text-center p-6 bg-muted/50 rounded-xl border border-dashed">
+                <p className="text-sm text-muted-foreground">Você ainda não possui um QR Code de retirada.</p>
+                <p className="text-xs text-muted-foreground mt-2">Solicite ao gestor.</p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Requests Card */}
+        <div className="space-y-4">
+          <Card className="h-full shadow-sm">
+            <CardHeader className="flex flex-row items-center justify-between pb-4 border-b">
+              <div>
+                <CardTitle className="text-lg">Minhas Requisições</CardTitle>
+                <CardDescription>Acompanhe seus pedidos</CardDescription>
+              </div>
+              <Link href="/requests/new">
+                <Button size="sm" className="bg-indigo-600 hover:bg-indigo-700">Nova Requisição</Button>
+              </Link>
+            </CardHeader>
+            <CardContent className="p-0">
+              {recentRequests.length === 0 ? (
+                <div className="p-8 text-center text-muted-foreground">
+                  Nenhuma requisição recente.
+                </div>
+              ) : (
+                <div className="divide-y">
+                  {recentRequests.map(req => (
+                    <div key={req.id} className="p-4 flex items-center justify-between hover:bg-muted/30 transition-colors">
+                      <div className="space-y-1">
+                        <Link href={`/requests/${req.id}`} className="font-bold hover:text-indigo-600 transition-colors">
+                          {req.requestNumber}
+                        </Link>
+                        <div className="flex items-center text-xs text-muted-foreground gap-2">
+                          <span className="flex items-center"><ClipboardList className="h-3 w-3 mr-1"/> {req._count.items} itens</span>
+                          <span>•</span>
+                          <span>{new Date(req.createdAt).toLocaleDateString()}</span>
+                        </div>
+                      </div>
+                      <Badge variant={req.status === 'FULFILLED' ? 'default' : req.status === 'DRAFT' ? 'outline' : 'secondary'}
+                        className={req.status === 'FULFILLED' ? 'bg-emerald-500' : req.status === 'PENDING_APPROVAL' ? 'bg-amber-500' : ''}>
+                        {req.status === 'PENDING_APPROVAL' ? 'Aguardando' : req.status === 'FULFILLED' ? 'Atendida' : req.status}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default async function DashboardPage() {
+  const session = await getSession()
+  const roles = session?.roles || []
+  
+  const isRequesterOnly = roles.includes('SOLICITANTE') && !roles.some(r => ['ADMIN', 'GESTOR', 'ALMOXARIFE'].includes(r))
+  
+  if (isRequesterOnly && session) {
+    const user = await db.user.findUnique({ where: { id: session.userId }, select: { qrToken: true } })
+    return <RequesterDashboard user={session} qrToken={user?.qrToken || null} />
+  }
+
+  const totalProducts = await db.product.count()
+
+  const pendingDivergencesCount = await db.inventoryDivergence.count({
+    where: { status: 'PENDING' }
+  })
+  
+  const pendingApprovalsCount = await db.inventoryDivergence.count({
+    where: { status: 'REVIEWED' }
+  })
+
+  const inTransitTransfersCount = await db.stockTransfer.count({
+    where: { status: 'IN_TRANSIT' } 
+  })
+
+  const activeInventories = await db.inventory.findMany({
+    where: { status: 'IN_PROGRESS' },
+    include: {
+      _count: { select: { locations: true } },
+      locations: { where: { status: 'COMPLETED' } }
+    },
+    take: 4
+  })
+
+  // Últimas movimentações
+  const recentMovements = await db.stockMovement.findMany({
+    take: 5,
+    orderBy: { createdAt: 'desc' },
+    include: { product: true }
+  })
+
+  // Agrega entradas e saídas dos últimos 30 dias (simplificado para o gráfico)
+  const thirtyDaysAgo = new Date()
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+
+  const recentMovementsForChart = await db.stockMovement.findMany({
+    where: {
+      createdAt: { gte: thirtyDaysAgo },
+      type: { in: ['ENTRY', 'EXIT'] }
+    },
+    select: {
+      type: true,
+      quantity: true,
+      createdAt: true
+    }
+  })
+
+  // Prepara dados pro gráfico (agrupado por data de forma ingênua aqui no JS)
+  const chartDataMap: Record<string, { name: string, entradas: number, saidas: number }> = {}
+  
+  recentMovementsForChart.forEach(m => {
+    const d = new Date(m.createdAt)
+    const dateStr = `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth()+1).toString().padStart(2, '0')}`
+    
+    if (!chartDataMap[dateStr]) {
+      chartDataMap[dateStr] = { name: dateStr, entradas: 0, saidas: 0 }
+    }
+    
+    if (m.type === 'ENTRY') {
+      chartDataMap[dateStr].entradas += m.quantity
+    } else {
+      chartDataMap[dateStr].saidas += m.quantity
+    }
+  })
+
+  const chartData = Object.values(chartDataMap).slice(-7) // últimos 7 dias com mov.
+
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card className="rounded-2xl border-border/50 bg-card/50 backdrop-blur-sm shadow-sm transition-all hover:shadow-md hover:border-primary/20">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-semibold text-muted-foreground">Divergências</CardTitle>
+            <div className="bg-amber-100 p-2 rounded-lg">
+              <FileText className="h-4 w-4 text-amber-600" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-black text-foreground">{pendingDivergencesCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">Pendentes de análise</p>
+          </CardContent>
+        </Card>
+        <Card className="rounded-2xl border-border/50 bg-card/50 backdrop-blur-sm shadow-sm transition-all hover:shadow-md hover:border-primary/20">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-semibold text-muted-foreground">Ajustes</CardTitle>
+            <div className="bg-blue-100 p-2 rounded-lg">
+              <AlertTriangle className="h-4 w-4 text-blue-600" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-black text-foreground">{pendingApprovalsCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">Aguardando aprovação</p>
+          </CardContent>
+        </Card>
+        <Card className="rounded-2xl border-border/50 bg-card/50 backdrop-blur-sm shadow-sm transition-all hover:shadow-md hover:border-primary/20">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-semibold text-muted-foreground">Transferências</CardTitle>
+            <div className="bg-emerald-100 p-2 rounded-lg">
+              <ArrowRightLeft className="h-4 w-4 text-emerald-600" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-black text-foreground">{inTransitTransfersCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">Em andamento</p>
+          </CardContent>
+        </Card>
+        <Card className="rounded-2xl border-border/50 bg-card/50 backdrop-blur-sm shadow-sm transition-all hover:shadow-md hover:border-primary/20">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-semibold text-muted-foreground">Total de Produtos</CardTitle>
+            <div className="bg-slate-100 p-2 rounded-lg">
+              <Package className="h-4 w-4 text-slate-600" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-black text-foreground">{totalProducts}</div>
+            <p className="text-xs text-muted-foreground mt-1">Cadastrados na base</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+        <Card className="col-span-4 rounded-2xl border-border/50 shadow-sm">
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <div>
+                <CardTitle className="text-lg font-bold">Entradas vs Saídas</CardTitle>
+                <CardDescription className="mt-1">Fluxo de movimentações nos últimos dias de operação.</CardDescription>
+              </div>
+              <Link href="/reports/movements" className="text-sm text-primary font-medium hover:underline flex items-center gap-1">
+                Ver relatório <ArrowRightLeft className="h-3 w-3" />
+              </Link>
+            </div>
+          </CardHeader>
+          <CardContent className="pl-2 h-[300px]">
+            <DashboardCharts data={chartData} />
+          </CardContent>
+        </Card>
+
+        <Card className="col-span-3 rounded-2xl border-border/50 shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-lg font-bold">Últimas Movimentações</CardTitle>
+            <CardDescription className="mt-1">Entradas, saídas e ajustes recentes no sistema.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {recentMovements.length === 0 ? (
+                <div className="text-center py-6 text-sm text-muted-foreground bg-muted/30 rounded-xl">
+                  Nenhuma movimentação.
+                </div>
+              ) : (
+                recentMovements.map(mov => {
+                  const isPositive = ['ENTRY', 'ADJUSTMENT_IN', 'TRANSFER_IN', 'RETURN'].includes(mov.type)
+                  let typeStr = mov.type
+                  if (mov.type === 'ENTRY') typeStr = 'Entrada'
+                  if (mov.type === 'EXIT') typeStr = 'Saída'
+                  if (mov.type === 'ADJUSTMENT_IN') typeStr = 'Ajuste (+)'
+                  if (mov.type === 'ADJUSTMENT_OUT') typeStr = 'Ajuste (-)'
+                  if (mov.type === 'TRANSFER_IN') typeStr = 'Transf. (+)'
+                  if (mov.type === 'TRANSFER_OUT') typeStr = 'Transf. (-)'
+                  if (mov.type === 'RETURN') typeStr = 'Devolução'
+
+                  const Icon = mov.type === 'RETURN' ? RotateCcw : ArrowRightLeft
+
+                  return (
+                    <div key={mov.id} className="flex items-center justify-between border-b border-border/50 pb-4 last:border-0 last:pb-0 transition-colors hover:bg-muted/20 -mx-2 px-2 rounded-lg py-2">
+                      <div className="flex items-center space-x-4">
+                        <div className={`flex h-10 w-10 items-center justify-center rounded-xl shadow-inner ${
+                          isPositive ? 'bg-success/10 text-success' : 'bg-destructive/10 text-destructive'
+                        }`}>
+                          <Icon className="h-4 w-4" />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-bold text-foreground">{mov.product.name}</span>
+                          <span className="text-xs font-medium text-muted-foreground mt-0.5">{typeStr} • {new Date(mov.createdAt).toLocaleDateString('pt-BR')}</span>
+                        </div>
+                      </div>
+                      <div className={`font-black text-lg ${
+                        isPositive ? 'text-success' : 'text-destructive'
+                      }`}>
+                        {isPositive ? '+' : ''}{mov.quantity}
+                      </div>
+                    </div>
+                  )
+                })
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-1">
+        <Card className="rounded-2xl border-border/50 shadow-sm">
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <div>
+                <CardTitle className="text-lg font-bold">Inventários Ativos</CardTitle>
+                <CardDescription className="mt-1">Acompanhe o progresso das contagens via Coletor.</CardDescription>
+              </div>
+              <Link href="/inventory" className="text-sm text-primary font-medium hover:underline">
+                Ir para Inventários
+              </Link>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {activeInventories.length === 0 ? (
+                <div className="text-center py-6 text-sm text-muted-foreground bg-muted/30 rounded-xl">
+                  Nenhum inventário em andamento no momento.
+                </div>
+              ) : (
+                activeInventories.map(inv => {
+                  const completed = inv.locations.length
+                  const total = inv._count.locations
+                  const progress = total > 0 ? Math.round((completed / total) * 100) : 0
+
+                  return (
+                    <div key={inv.id} className="group flex items-center justify-between rounded-xl border border-border/50 bg-background/50 p-4 transition-all hover:border-primary/30 hover:shadow-sm">
+                      <div className="flex flex-col space-y-1">
+                        <Link href={`/inventory/${inv.id}`} className="font-bold text-foreground group-hover:text-primary transition-colors">
+                          {inv.name}
+                        </Link>
+                        <span className="text-sm font-medium text-muted-foreground flex items-center gap-1.5 mt-1">
+                          <Smartphone className="h-3.5 w-3.5 text-primary/70" />
+                          Locais: {completed}/{total}
+                        </span>
+                      </div>
+                      <div className="flex flex-col items-end space-y-2">
+                        <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20">Em Andamento</Badge>
+                        <span className="text-sm font-bold text-primary">{progress}% concluído</span>
+                      </div>
+                    </div>
+                  )
+                })
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  )
+}
