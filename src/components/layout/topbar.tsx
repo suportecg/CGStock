@@ -68,7 +68,7 @@ export function Topbar({ user }: { user?: { name: string; email: string; roles: 
           <Menu className="h-5 w-5" />
         </button>
         {/* O botão de voltar agora fica ao lado dos títulos nas páginas */}
-        <h1 className="text-xl font-bold tracking-tight text-foreground    bg-clip-text text-transparent">
+        <h1 className="text-xl font-bold tracking-tight text-foreground">
           {titleFormatted}
         </h1>
       </div>

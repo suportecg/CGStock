@@ -7,6 +7,7 @@ import Link from "next/link"
 import { db } from "@/lib/db"
 import { ProductActions } from "./product-actions"
 import { DeleteAllButton } from "./delete-all-button"
+import { cn } from "@/lib/utils"
 
 export default async function ProductsPage({
   searchParams,
@@ -70,249 +71,159 @@ export default async function ProductsPage({
   const totalPages = Math.ceil(totalCount / pageSize)
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div className="flex flex-col h-full space-y-4">
+      {/* Header and Toolbar */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-card p-4 border border-border shadow-sm">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Produtos</h2>
-          <p className="text-muted-foreground">Gerencie os produtos cadastrados no almoxarifado.</p>
+          <h2 className="text-xl font-bold tracking-tight text-foreground">Produtos</h2>
         </div>
-        <div className="flex gap-2">
-          <DeleteAllButton />
-          <Link href="/products/new">
-            <Button className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              Novo produto
-            </Button>
-          </Link>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-card  p-4 rounded-md border border-border shadow-sm  ">
-          <p className="text-sm font-semibold text-muted-foreground">Total de Produtos (Tipos)</p>
-          <p className="text-3xl font-black text-foreground mt-1">{totalCount}</p>
-        </div>
-        <div className="bg-card  p-4 rounded-md border border-border shadow-sm  ">
-          <p className="text-sm font-semibold text-muted-foreground">Itens em Estoque (Unidades)</p>
-          <p className="text-3xl font-black text-foreground mt-1">
-            {new Intl.NumberFormat('pt-BR').format(totalItemsInStock)}
-          </p>
-        </div>
-        <div className="bg-card  p-4 rounded-md border border-border shadow-sm  ">
-          <p className="text-sm font-semibold text-muted-foreground">Valor Total em Estoque</p>
-          <p className="text-3xl font-black text-foreground mt-1">
-            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(grandTotalValue)}
-          </p>
-        </div>
-      </div>
-
-      <form method="GET" className="flex flex-col sm:flex-row gap-4 bg-card  p-4 rounded-md border border-border shadow-sm">
-        <div className="relative flex-1">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input name="q" defaultValue={search || ""} placeholder="Buscar por cód. insumo ou descrição..." className="pl-9" />
-        </div>
-        <div className="flex gap-2 w-full sm:w-auto">
-          <select name="category" defaultValue={categoryId || ""} className="flex h-10 w-full sm:w-40 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+        
+        <form method="GET" className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto items-center">
+          <div className="relative w-full sm:w-64">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input name="q" defaultValue={search || ""} placeholder="Buscar por código ou descrição..." className="pl-9 h-9 text-sm" />
+          </div>
+          
+          <select name="category" defaultValue={categoryId || ""} className="h-9 w-full sm:w-40 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-1 focus:ring-primary">
             <option value="">Categorias (Todas)</option>
             {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
-          <select name="status" defaultValue={status || ""} className="flex h-10 w-full sm:w-36 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+          
+          <select name="status" defaultValue={status || ""} className="h-9 w-full sm:w-32 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-1 focus:ring-primary">
             <option value="">Status (Todos)</option>
             <option value="ACTIVE">Ativo</option>
             <option value="INACTIVE">Inativo</option>
           </select>
-          <Button type="submit" variant="secondary" className="flex items-center gap-2 shrink-0">
-            <Filter className="h-4 w-4" />
+          
+          <Button type="submit" variant="secondary" className="h-9 px-3 text-sm">
             Filtrar
           </Button>
-        </div>
-      </form>
 
-      <div className="bg-card  rounded-md border border-border shadow-sm  overflow-hidden  ">
-        {/* Mobile View: Cards */}
-        <div className="md:hidden divide-y divide-border/50">
-          {productsList.length === 0 ? (
-            <div className="p-8 text-center">
-              <div className="mx-auto h-12 w-12 rounded-full bg-muted/50 flex items-center justify-center mb-4">
-                <Search className="h-6 w-6 text-muted-foreground/50" />
-              </div>
-              <p className="text-base font-medium text-foreground mb-1">Nenhum produto</p>
-              <p className="text-sm text-muted-foreground">Você ainda não possui produtos ou os filtros não retornaram resultados.</p>
-            </div>
-          ) : (
-            productsList.map((product) => {
-              const totalStock = product.stocks.reduce((acc: number, stock: any) => acc + stock.quantity, 0)
-              const totalValue = totalStock * Number(product.averageCost || 0)
-              return (
-                <div key={product.id} className="p-5 space-y-4 bg-transparent hover:bg-muted/20 ">
-                  <div className="flex justify-between items-start gap-3">
-                    <div className="flex items-center gap-3">
-                      <div className="flex flex-col">
-                        <div className="flex items-center gap-2">
-                          <Link href={`/products/${product.id}`} className="font-semibold text-base text-foreground leading-tight hover:text-primary ">
-                            {product.name}
-                          </Link>
-                        </div>
-                        <span className="text-sm text-muted-foreground line-clamp-1 mt-0.5">
-                          Cód. Insumo: {product.code}
-                        </span>
-                      </div>
-                    </div>
-                    {product.status === 'ACTIVE' ? (
-                      <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 text-[10px] font-medium whitespace-nowrap">
-                        <span className="h-1 w-1 rounded-full bg-emerald-600 "></span>
-                        Ativo
-                      </div>
-                    ) : (
-                      <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-zinc-500/10 text-zinc-600 border border-zinc-500/20 text-[10px] font-medium whitespace-nowrap">
-                        <span className="h-1 w-1 rounded-full bg-zinc-600"></span>
-                        Inativo
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-3 text-sm p-3 bg-muted/30 rounded-lg border border-border">
-                    <div>
-                      <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-0.5">Estoque</span>
-                      <span className="font-medium text-foreground">{totalStock} {product.unit.code}</span>
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-0.5">Valor Total</span>
-                      <span className="font-bold text-primary">
-                        {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalValue)}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between pt-3 border-t border-border">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-semibold bg-secondary/60 text-foreground px-2 py-1 rounded-md border border-border">{product.category.name}</span>
-                    </div>
-                    <ProductActions 
-                      productId={product.id} 
-                      productCode={product.code} 
-                      productName={product.name} 
-                    />
-                  </div>
-                </div>
-              )
-            })
-          )}
-        </div>
+          <div className="h-6 w-px bg-border hidden sm:block mx-1"></div>
 
-        {/* Desktop View: Table */}
-        <div className="hidden md:block overflow-x-auto p-1">
-          <Table className="w-full">
-          <TableHeader>
-            <TableRow className="border-b border-border hover:bg-transparent">
-              <TableHead className="h-14 px-6 font-semibold text-muted-foreground text-sm uppercase tracking-wider">Cód. Insumo</TableHead>
-              <TableHead className="h-14 px-6 font-semibold text-muted-foreground text-sm uppercase tracking-wider">Produto</TableHead>
-              <TableHead className="h-14 px-6 font-semibold text-muted-foreground text-sm uppercase tracking-wider">Categoria</TableHead>
-              <TableHead className="h-14 px-6 font-semibold text-muted-foreground text-sm uppercase tracking-wider text-center">Unid.</TableHead>
-              <TableHead className="h-14 px-6 font-semibold text-muted-foreground text-sm uppercase tracking-wider text-right">Estoque</TableHead>
-              <TableHead className="h-14 px-6 font-semibold text-muted-foreground text-sm uppercase tracking-wider text-right">Valor Total</TableHead>
-              <TableHead className="h-14 px-6 font-semibold text-muted-foreground text-sm uppercase tracking-wider">Status</TableHead>
-              <TableHead className="h-14 px-6 font-semibold text-muted-foreground text-sm uppercase tracking-wider text-right">Ações</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {productsList.length === 0 ? (
-              <TableRow className="hover:bg-transparent">
-                <TableCell colSpan={8} className="text-center py-16">
-                  <div className="flex flex-col items-center justify-center space-y-3">
-                    <div className="rounded-full bg-muted/50 p-4">
-                      <Search className="h-8 w-8 text-muted-foreground/50" />
-                    </div>
-                    <p className="text-lg font-medium text-foreground">Nenhum produto encontrado</p>
-                    <p className="text-sm text-muted-foreground">Você ainda não possui produtos cadastrados no sistema.</p>
-                  </div>
-                </TableCell>
+          <Link href="/products/new">
+            <Button className="h-9 px-3 text-sm bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2">
+              <Plus className="h-4 w-4" />
+              Novo
+            </Button>
+          </Link>
+        </form>
+      </div>
+
+      {/* KPI Stats (Compact) */}
+      <div className="flex flex-row divide-x divide-border bg-card border border-border shadow-sm">
+        <div className="flex-1 p-3 flex flex-col">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Total (Tipos)</span>
+          <span className="text-lg font-bold text-foreground leading-none mt-1">{totalCount}</span>
+        </div>
+        <div className="flex-1 p-3 flex flex-col">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Estoque (Unidades)</span>
+          <span className="text-lg font-bold text-foreground leading-none mt-1">{new Intl.NumberFormat('pt-BR').format(totalItemsInStock)}</span>
+        </div>
+        <div className="flex-1 p-3 flex flex-col">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Valor Total em Estoque</span>
+          <span className="text-lg font-bold text-primary leading-none mt-1">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(grandTotalValue)}</span>
+        </div>
+      </div>
+
+      {/* Main Data Table */}
+      <div className="flex-1 bg-card border border-border overflow-hidden flex flex-col shadow-sm">
+        <div className="overflow-x-auto">
+          <Table className="w-full text-sm">
+            <TableHeader className="bg-muted/50">
+              <TableRow className="border-b border-border">
+                <TableHead className="h-10 px-4 font-semibold text-muted-foreground w-[120px]">Código</TableHead>
+                <TableHead className="h-10 px-4 font-semibold text-muted-foreground">Produto</TableHead>
+                <TableHead className="h-10 px-4 font-semibold text-muted-foreground w-[150px]">Categoria</TableHead>
+                <TableHead className="h-10 px-4 font-semibold text-muted-foreground w-[80px] text-center">Unid.</TableHead>
+                <TableHead className="h-10 px-4 font-semibold text-muted-foreground w-[100px] text-right">Estoque</TableHead>
+                <TableHead className="h-10 px-4 font-semibold text-muted-foreground w-[120px] text-right">Valor</TableHead>
+                <TableHead className="h-10 px-4 font-semibold text-muted-foreground w-[100px] text-center">Status</TableHead>
+                <TableHead className="h-10 px-4 font-semibold text-muted-foreground w-[80px] text-right">Ações</TableHead>
               </TableRow>
-            ) : (
-              productsList.map((product) => {
-                const totalStock = product.stocks.reduce((acc: number, stock: any) => acc + stock.quantity, 0)
-                const totalValue = totalStock * Number(product.averageCost || 0)
-                return (
-                  <TableRow 
-                    key={product.id}
-                    className="group border-b border-border hover:bg-primary/[0.02]   "
-                  >
-                    <TableCell className="px-6 py-4 font-mono text-sm text-muted-foreground">{product.code}</TableCell>
-                    <TableCell className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <Link href={`/products/${product.id}`} className="font-semibold text-base text-foreground group-hover:text-primary  ">
+            </TableHeader>
+            <TableBody>
+              {productsList.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+                    Nenhum produto encontrado com os filtros atuais.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                productsList.map((product) => {
+                  const totalStock = product.stocks.reduce((acc: number, stock: any) => acc + stock.quantity, 0)
+                  const totalValue = totalStock * Number(product.averageCost || 0)
+                  return (
+                    <TableRow 
+                      key={product.id}
+                      className="border-b border-border hover:bg-muted/20"
+                    >
+                      <TableCell className="px-4 py-2 font-mono text-muted-foreground">{product.code}</TableCell>
+                      <TableCell className="px-4 py-2">
+                        <Link href={`/products/${product.id}`} className="font-medium text-foreground hover:underline">
                           {product.name}
                         </Link>
-                      </div>
-                    </TableCell>
-                    <TableCell className="px-6 py-4">
-                      <span className="text-muted-foreground bg-muted/30 px-2 py-1 rounded-md border border-border text-sm">
+                      </TableCell>
+                      <TableCell className="px-4 py-2 text-muted-foreground">
                         {product.category.name}
-                      </span>
-                    </TableCell>
-                    <TableCell className="px-6 py-4 text-center">
-                      <span className="text-xs font-bold text-foreground bg-secondary/50 px-2 py-1 rounded-md border border-border uppercase">
+                      </TableCell>
+                      <TableCell className="px-4 py-2 text-center text-muted-foreground">
                         {product.unit.code}
-                      </span>
-                    </TableCell>
-                    <TableCell className="px-6 py-4 text-right">
-                      <span className="font-semibold text-foreground">{totalStock}</span>
-                    </TableCell>
-                    <TableCell className="px-6 py-4 text-right">
-                      <span className="font-bold text-primary">
+                      </TableCell>
+                      <TableCell className="px-4 py-2 text-right font-medium">
+                        {totalStock}
+                      </TableCell>
+                      <TableCell className="px-4 py-2 text-right text-muted-foreground">
                         {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalValue)}
-                      </span>
-                    </TableCell>
-                    <TableCell className="px-6 py-4">
-                      {product.status === 'ACTIVE' ? (
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 text-sm font-medium">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 animate-[pulse_2s_ease-in-out_infinite]"></span>
-                          Ativo
-                        </div>
-                      ) : (
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-500/10 text-zinc-600 border border-zinc-500/20 text-sm font-medium">
-                          <span className="h-1.5 w-1.5 rounded-full bg-zinc-600"></span>
-                          Inativo
-                        </div>
-                      )}
-                    </TableCell>
-                    <TableCell className="px-6 py-4 text-right">
-                      <div className="opacity-0 group-hover:opacity-100   translate-x-2 group-hover:translate-x-0">
+                      </TableCell>
+                      <TableCell className="px-4 py-2 text-center">
+                        <span className={cn(
+                          "text-xs font-medium",
+                          product.status === 'ACTIVE' ? "text-emerald-600" : "text-muted-foreground"
+                        )}>
+                          {product.status === 'ACTIVE' ? 'Ativo' : 'Inativo'}
+                        </span>
+                      </TableCell>
+                      <TableCell className="px-4 py-2 text-right">
                         <ProductActions 
                           productId={product.id} 
                           productCode={product.code} 
                           productName={product.name} 
                         />
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                )
-              })
-            )}
-          </TableBody>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })
+              )}
+            </TableBody>
           </Table>
         </div>
-      </div>
-      
-      {totalPages > 1 && (
-        <div className="flex items-center justify-between border-t border-border pt-4">
-          <p className="text-sm text-muted-foreground">
-            Mostrando <span className="font-medium text-foreground">{(page - 1) * pageSize + 1}</span> a <span className="font-medium text-foreground">{Math.min(page * pageSize, totalCount)}</span> de <span className="font-medium text-foreground">{totalCount}</span> produtos
-          </p>
-          <div className="flex items-center gap-2">
-            <Link href={page > 1 ? `/products?${new URLSearchParams({ ...resolvedSearchParams, page: String(page - 1) }).toString()}` : '#'}>
-              <Button variant="outline" size="sm" disabled={page <= 1}>
-                Anterior
-              </Button>
-            </Link>
-            <Link href={page < totalPages ? `/products?${new URLSearchParams({ ...resolvedSearchParams, page: String(page + 1) }).toString()}` : '#'}>
-              <Button variant="outline" size="sm" disabled={page >= totalPages}>
-                Próxima
-              </Button>
-            </Link>
+        
+        {/* Footer / Pagination */}
+        <div className="flex items-center justify-between border-t border-border px-4 py-3 bg-muted/20 mt-auto">
+          <div className="text-sm text-muted-foreground">
+            Total de <strong>{totalCount}</strong> produtos encontrados
           </div>
+          
+          {totalPages > 1 && (
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground mr-2">
+                Página {page} de {totalPages}
+              </span>
+              <Link href={page > 1 ? `/products?${new URLSearchParams({ ...resolvedSearchParams, page: String(page - 1) }).toString()}` : '#'}>
+                <Button variant="outline" size="sm" disabled={page <= 1} className="h-8 text-xs">
+                  Anterior
+                </Button>
+              </Link>
+              <Link href={page < totalPages ? `/products?${new URLSearchParams({ ...resolvedSearchParams, page: String(page + 1) }).toString()}` : '#'}>
+                <Button variant="outline" size="sm" disabled={page >= totalPages} className="h-8 text-xs">
+                  Próxima
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   )
 }
