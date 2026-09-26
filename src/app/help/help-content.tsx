@@ -58,7 +58,7 @@ export function HelpContent() {
   return (
     <div className="flex flex-col md:flex-row gap-8 items-start relative">
       {/* Sidebar de Navegação (Scrollspy) */}
-      <Card className="hidden md:block w-72 sticky top-24 shrink-0 bg-card/80 backdrop-blur-xl border-border/50 shadow-lg">
+      <Card className="hidden md:block w-72 sticky top-24 shrink-0 bg-card  border-border shadow-sm">
         <CardContent className="p-4">
           <h3 className="font-bold uppercase tracking-wider text-xs text-muted-foreground mb-4">Índice</h3>
           <nav className="flex flex-col space-y-1">
@@ -67,9 +67,9 @@ export function HelpContent() {
                 key={id}
                 onClick={() => scrollTo(id)}
                 className={cn(
-                  "text-left px-3 py-2 rounded-lg text-sm transition-all duration-200",
+                  "text-left px-3 py-2 rounded-lg text-sm  ",
                   activeSection === id
-                    ? "bg-primary text-primary-foreground font-semibold shadow-md"
+                    ? "bg-primary text-primary-foreground font-semibold shadow-sm"
                     : "text-muted-foreground hover:bg-muted hover:text-foreground"
                 )}
               >
@@ -89,9 +89,9 @@ export function HelpContent() {
             Ele foi desenvolvido com o conceito de <em>Imutabilidade Operacional</em>, o que significa que
             toda alteração no estoque gera um rastro inalterável, garantindo auditoria completa e zero fraudes.
           </p>
-          <div className="bg-indigo-50/50 dark:bg-indigo-950/20 border border-indigo-100 dark:border-indigo-900 rounded-xl p-4 mt-4">
-            <h4 className="font-semibold text-indigo-800 dark:text-indigo-300">Conceito Chave: Movimentações</h4>
-            <p className="text-sm text-indigo-700/80 dark:text-indigo-300/80 mt-1">
+          <div className="bg-primary/5/50 dark:bg-primary/20 border border-primary/10 dark:border-primary rounded-md p-4 mt-4">
+            <h4 className="font-semibold text-primary dark:text-primary">Conceito Chave: Movimentações</h4>
+            <p className="text-sm text-primary/80 dark:text-primary/80 mt-1">
               Você nunca edita a quantidade de um produto diretamente. O estoque é sempre o resultado da soma matemática de todas as Entradas subtraída de todas as Saídas.
             </p>
           </div>
@@ -109,10 +109,10 @@ export function HelpContent() {
 
           <div className="space-y-3 mt-4">
             {/* Tutorial 1 */}
-            <div className="border border-border/50 rounded-xl overflow-hidden bg-card transition-all">
+            <div className="border border-border rounded-md overflow-hidden bg-card ">
               <button 
                 onClick={() => toggleTutorial('t1')}
-                className="w-full flex items-center justify-between p-4 text-left hover:bg-muted/50 transition-colors"
+                className="w-full flex items-center justify-between p-4 text-left hover:bg-muted/50 "
               >
                 <span className="font-bold text-foreground">Como dar Entrada em uma Mercadoria (Nota Fiscal)?</span>
                 {openTutorial === 't1' ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
@@ -144,10 +144,10 @@ export function HelpContent() {
             </div>
 
             {/* Tutorial 2 */}
-            <div className="border border-border/50 rounded-xl overflow-hidden bg-card transition-all">
+            <div className="border border-border rounded-md overflow-hidden bg-card ">
               <button 
                 onClick={() => toggleTutorial('t2')}
-                className="w-full flex items-center justify-between p-4 text-left hover:bg-muted/50 transition-colors"
+                className="w-full flex items-center justify-between p-4 text-left hover:bg-muted/50 "
               >
                 <span className="font-bold text-foreground">Como aprovar e entregar uma Requisição?</span>
                 {openTutorial === 't2' ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
@@ -180,10 +180,10 @@ export function HelpContent() {
             </div>
 
             {/* Tutorial 3 */}
-            <div className="border border-border/50 rounded-xl overflow-hidden bg-card transition-all">
+            <div className="border border-border rounded-md overflow-hidden bg-card ">
               <button 
                 onClick={() => toggleTutorial('t3')}
-                className="w-full flex items-center justify-between p-4 text-left hover:bg-muted/50 transition-colors"
+                className="w-full flex items-center justify-between p-4 text-left hover:bg-muted/50 "
               >
                 <span className="font-bold text-foreground">Como usar o Coletor Offline (App) para Inventário?</span>
                 {openTutorial === 't3' ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
@@ -216,10 +216,10 @@ export function HelpContent() {
             </div>
             
             {/* Tutorial 4 */}
-            <div className="border border-border/50 rounded-xl overflow-hidden bg-card transition-all">
+            <div className="border border-border rounded-md overflow-hidden bg-card ">
               <button 
                 onClick={() => toggleTutorial('t4')}
-                className="w-full flex items-center justify-between p-4 text-left hover:bg-muted/50 transition-colors"
+                className="w-full flex items-center justify-between p-4 text-left hover:bg-muted/50 "
               >
                 <span className="font-bold text-foreground">Como cadastrar um novo Produto?</span>
                 {openTutorial === 't4' ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
@@ -270,14 +270,14 @@ export function HelpContent() {
             Para operar o sistema, você primeiro precisa organizar seus cadastros base.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-            <div className="border rounded-xl p-4 bg-card/50">
+            <div className="border rounded-md p-4 bg-card">
               <h3 className="font-bold">Categorias & Unidades</h3>
               <p className="text-sm text-muted-foreground mt-2">
                 Agrupe seus itens (ex: EPIs, Limpeza, Ferramentas) e crie Unidades de Medida (UN, KG, CX). 
                 Eles são obrigatórios para cadastrar produtos.
               </p>
             </div>
-            <div className="border rounded-xl p-4 bg-card/50">
+            <div className="border rounded-md p-4 bg-card">
               <h3 className="font-bold">Localizações (Endereçamento)</h3>
               <p className="text-sm text-muted-foreground mt-2">
                 Onde a mercadoria fica física no almoxarifado? Ex: <em>Corredor A - Prateleira 2</em>.
@@ -375,35 +375,35 @@ export function HelpContent() {
         <section id="faq" className="scroll-mt-24 space-y-4">
           <h2 className="text-2xl font-bold border-b pb-2 text-primary">FAQ / Dúvidas Comuns</h2>
           <div className="space-y-4 mt-4">
-            <div className="border border-border/50 rounded-xl p-4 bg-card">
+            <div className="border border-border rounded-md p-4 bg-card">
               <h4 className="font-bold">1. O saldo de um produto está errado no sistema. Como corrigir?</h4>
               <p className="text-sm text-muted-foreground mt-2">
                 Como o CGStock trabalha com Imutabilidade Operacional, você não pode "editar" o saldo de um produto. Se houver uma diferença física, você deve ir em <strong>Inventário</strong> e criar um Ajuste (Entrada ou Saída por Ajuste) para justificar a sobra ou perda. Isso mantém o rastro de auditoria perfeito.
               </p>
             </div>
             
-            <div className="border border-border/50 rounded-xl p-4 bg-card">
+            <div className="border border-border rounded-md p-4 bg-card">
               <h4 className="font-bold">2. Como transfiro materiais de uma obra (almoxarifado) para outra?</h4>
               <p className="text-sm text-muted-foreground mt-2">
                 Acesse o menu de <strong>Transferências</strong>. Nele, você pode selecionar o Almoxarifado de Origem (onde o produto está) e o Almoxarifado de Destino (para onde vai). O sistema debita de um lado e credita do outro de forma segura e atrelada a um único documento.
               </p>
             </div>
 
-            <div className="border border-border/50 rounded-xl p-4 bg-card">
+            <div className="border border-border rounded-md p-4 bg-card">
               <h4 className="font-bold">3. Tentei excluir um produto mas o sistema não deixou. Por quê?</h4>
               <p className="text-sm text-muted-foreground mt-2">
                 Produtos que já sofreram movimentações de estoque (entradas, saídas, requisições) não podem ser excluídos para não quebrar o histórico contábil e de relatórios do passado. Nesses casos, você deve alterar o <strong>Status</strong> do produto para <em>Inativo</em> na tela de edição. Assim, ele não aparecerá mais nas buscas para novas operações.
               </p>
             </div>
 
-            <div className="border border-border/50 rounded-xl p-4 bg-card">
+            <div className="border border-border rounded-md p-4 bg-card">
               <h4 className="font-bold">4. Posso entregar menos material do que o funcionário pediu na Requisição?</h4>
               <p className="text-sm text-muted-foreground mt-2">
                 Sim! Ao atender uma Requisição, você verá a coluna "Qtd. Aprovada/Entregue". Se o funcionário pediu 10 luvas, mas você só tem 5 em estoque (ou só quer liberar 5), basta preencher 5. A requisição ficará com status de <em>Parcialmente Atendida</em>.
               </p>
             </div>
 
-            <div className="border border-border/50 rounded-xl p-4 bg-card">
+            <div className="border border-border rounded-md p-4 bg-card">
               <h4 className="font-bold">5. O que significa "Imutabilidade Operacional"?</h4>
               <p className="text-sm text-muted-foreground mt-2">
                 É a segurança do seu patrimônio. Significa que os registros passados de entradas e saídas nunca podem ser alterados ou apagados. Isso evita fraudes e erros invisíveis. Se um lançamento foi feito errado, deve-se fazer um lançamento de estorno ou ajuste, criando um rastro transparente que qualquer auditor ou gestor consegue entender depois.

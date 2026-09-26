@@ -186,7 +186,7 @@ export default function RequestForm({ users, warehouses, products }: any) {
                 Salvar Rascunho
               </Button>
 
-              <Button type="submit" name="actionType" value="PENDING_APPROVAL" className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white">
+              <Button type="submit" name="actionType" value="PENDING_APPROVAL" className="flex items-center gap-2 bg-primary hover:bg-primary text-white">
                 <Send className="h-4 w-4" />
                 Enviar Requisição
               </Button>

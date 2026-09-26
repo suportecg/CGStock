@@ -29,14 +29,14 @@ export default async function ReturnsPage() {
           </div>
         </div>
         <Link href="/returns/new">
-          <Button className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2">
+          <Button className="bg-primary hover:bg-primary text-white flex items-center gap-2">
             <Plus className="h-4 w-4" />
             Nova Devolução
           </Button>
         </Link>
       </div>
 
-      <div className="bg-card/95 backdrop-blur-xl rounded-2xl border border-border/40 shadow-xl shadow-indigo-500/5 overflow-hidden transition-all duration-200">
+      <div className="bg-card  rounded-md border border-border shadow-sm  overflow-hidden  ">
         {/* Mobile View: Cards */}
         <div className="md:hidden divide-y divide-border">
           {returns.length === 0 ? (
@@ -46,7 +46,7 @@ export default async function ReturnsPage() {
             </div>
           ) : (
             returns.map(ret => (
-              <div key={ret.id} className="p-4 space-y-3 bg-card hover:bg-muted/30 transition-colors">
+              <div key={ret.id} className="p-4 space-y-3 bg-card hover:bg-muted/30 ">
                 <div className="flex justify-between items-start gap-2">
                   <div className="flex flex-col">
                     <span className="text-xs font-semibold text-muted-foreground uppercase">
@@ -73,7 +73,7 @@ export default async function ReturnsPage() {
                   <div>
                     <span className="text-xs text-muted-foreground block">Req. Original</span>
                     {ret.request ? (
-                      <Link href={`/requests/${ret.requestId}`} className="text-indigo-600 font-medium hover:underline">
+                      <Link href={`/requests/${ret.requestId}`} className="text-primary font-medium hover:underline">
                         {ret.request.requestNumber}
                       </Link>
                     ) : (
@@ -82,7 +82,7 @@ export default async function ReturnsPage() {
                   </div>
                 </div>
                 
-                <div className="flex items-center justify-between pt-2 border-t border-border/50">
+                <div className="flex items-center justify-between pt-2 border-t border-border">
                   <div className="flex flex-col text-xs text-muted-foreground">
                     <span>Local: <span className="font-medium text-foreground">{ret.warehouse.name}</span></span>
                   </div>
@@ -125,7 +125,7 @@ export default async function ReturnsPage() {
                   <TableCell>{ret.returnedBy.name}</TableCell>
                   <TableCell>
                     {ret.request ? (
-                      <Link href={`/requests/${ret.requestId}`} className="text-indigo-600 hover:underline">
+                      <Link href={`/requests/${ret.requestId}`} className="text-primary hover:underline">
                         {ret.request.requestNumber}
                       </Link>
                     ) : (

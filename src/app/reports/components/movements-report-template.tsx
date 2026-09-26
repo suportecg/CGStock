@@ -75,7 +75,7 @@ export async function MovementsReportTemplate({
         </div>
       </div>
 
-      <div className="bg-card/95 backdrop-blur-xl rounded-2xl border border-border/40 shadow-xl shadow-indigo-500/5 overflow-hidden transition-all duration-200">
+      <div className="bg-card  rounded-md border border-border shadow-sm  overflow-hidden  ">
         {movements.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground">
             Nenhuma movimentação registrada.
@@ -118,7 +118,7 @@ export async function MovementsReportTemplate({
                       </TableCell>
                       <TableCell className="text-xs text-muted-foreground">{mov.warehouse.name}</TableCell>
                       <TableCell className="text-xs font-mono bg-muted">{mov.location.code}</TableCell>
-                      <TableCell className="text-xs text-indigo-600 cursor-pointer hover:underline">
+                      <TableCell className="text-xs text-primary cursor-pointer hover:underline">
                         {mov.documentNumber || mov.referenceId || '-'}
                       </TableCell>
                       <TableCell className="text-xs text-muted-foreground">{mov.performedBy.name.split(' ')[0]}</TableCell>

@@ -15,21 +15,21 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : "button"
     
     // Using a simpler approach than cva for now, maintaining standard shadcn visual feel
-    const baseStyles = "inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/50 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]"
+    const baseStyles = "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-bold   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]"
     
     const variants = {
-      default: "bg-indigo-600 text-white hover:bg-indigo-700 shadow-md shadow-indigo-600/20 hover:shadow-lg hover:shadow-indigo-600/30",
-      destructive: "bg-red-500 text-white hover:bg-red-600 shadow-md shadow-red-500/20 hover:shadow-lg hover:shadow-red-500/30",
-      outline: "border border-border/50 bg-transparent hover:bg-muted/50 hover:text-foreground",
+      default: "bg-primary text-white hover:bg-primary shadow-sm  hover:shadow-sm hover:",
+      destructive: "bg-red-500 text-white hover:bg-red-600 shadow-sm shadow-red-500/20 hover:shadow-sm hover:shadow-red-500/30",
+      outline: "border border-border bg-transparent hover:bg-muted/50 hover:text-foreground",
       secondary: "bg-accent/50 text-foreground hover:bg-accent",
       ghost: "hover:bg-muted/50 hover:text-foreground",
-      link: "text-indigo-600 underline-offset-4 hover:underline",
+      link: "text-primary underline-offset-4 hover:underline",
     }
     
     const sizes = {
       default: "h-11 px-5 py-2",
       sm: "h-9 rounded-lg px-3 text-xs",
-      lg: "h-12 rounded-xl px-8",
+      lg: "h-12 rounded-md px-8",
       icon: "h-11 w-11",
     }
     

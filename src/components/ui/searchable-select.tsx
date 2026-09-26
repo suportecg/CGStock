@@ -58,7 +58,7 @@ export function SearchableSelect({
       <button
         type="button"
         className={cn(
-          "flex h-11 w-full items-center justify-between rounded-xl border border-border/40 bg-muted/20 px-4 py-2 text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 hover:bg-muted/50",
+          "flex h-11 w-full items-center justify-between rounded-md border border-border bg-muted/20 px-4 py-2 text-sm  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:border-primary hover:bg-muted/50",
           !value && "text-muted-foreground"
         )}
         onClick={() => {
@@ -73,16 +73,16 @@ export function SearchableSelect({
       {isOpen && (
         <>
           <div 
-            className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm md:hidden" 
+            className="fixed inset-0 z-40 bg-background/80  md:hidden" 
             onClick={(e) => {
               e.stopPropagation()
               setIsOpen(false)
             }} 
           />
           <div className={cn(
-            "z-50 overflow-hidden border bg-popover text-popover-foreground shadow-md animate-in flex flex-col",
+            "z-50 overflow-hidden border bg-popover text-popover-foreground shadow-sm  flex flex-col",
             "fixed inset-x-0 bottom-0 max-h-[80vh] rounded-t-xl sm:rounded-md",
-            "md:absolute md:mt-1 md:max-h-60 md:w-full md:inset-auto md:rounded-md md:fade-in-80 md:zoom-in-95"
+            "md:absolute md:mt-1 md:max-h-60 md:w-full md:inset-auto md:rounded-md md: md:"
           )}>
             <div className="sticky top-0 bg-popover p-3 md:p-2 border-b z-10">
               <div className="flex items-center rounded-md border px-3">

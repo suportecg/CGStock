@@ -31,7 +31,7 @@ export default async function AuditPage({ searchParams }: { searchParams: Promis
           <BackButton />
           <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Shield className="h-6 w-6 text-indigo-600" />
+            <Shield className="h-6 w-6 text-primary" />
             Trilha de Auditoria
           </h1>
           <p className="text-muted-foreground text-sm mt-1">Registro imutável de operações e eventos do sistema.</p>
@@ -39,7 +39,7 @@ export default async function AuditPage({ searchParams }: { searchParams: Promis
         </div>
       </div>
 
-      <div className="bg-card/95 backdrop-blur-xl rounded-2xl border border-border/40 shadow-xl shadow-indigo-500/5 overflow-hidden transition-all duration-200">
+      <div className="bg-card  rounded-md border border-border shadow-sm  overflow-hidden  ">
         {logs.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground">
             Nenhum log de auditoria encontrado.

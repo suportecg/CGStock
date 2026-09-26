@@ -83,7 +83,7 @@ export default async function RequestDetailPage({ params }: { params: Promise<{ 
           )}
           {req.status === 'APPROVED' && (
             <form action={separationAction}>
-              <Button className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white">
+              <Button className="flex items-center gap-2 bg-primary hover:bg-primary text-white">
                 <Play className="h-4 w-4" />
                 Iniciar Separação
               </Button>
@@ -91,7 +91,7 @@ export default async function RequestDetailPage({ params }: { params: Promise<{ 
           )}
           {['IN_SEPARATION', 'PARTIALLY_FULFILLED'].includes(req.status) && (
             <Link href={`/requests/${req.id}/fulfillment`}>
-              <Button className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white">
+              <Button className="flex items-center gap-2 bg-primary hover:bg-primary text-white">
                 <Package className="h-4 w-4" />
                 Continuar Separação / Entrega
               </Button>

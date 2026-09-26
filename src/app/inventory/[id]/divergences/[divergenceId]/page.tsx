@@ -73,8 +73,8 @@ export default async function DivergenceDetailsPage({ params }: { params: Promis
                 <div className="flex items-center justify-center text-gray-300">
                   <ArrowRight className="h-8 w-8" />
                 </div>
-                <div className="p-4 bg-card rounded-lg border shadow-sm border-indigo-100">
-                  <p className="text-sm text-indigo-600 font-medium mb-1">Total Contado</p>
+                <div className="p-4 bg-card rounded-lg border shadow-sm border-primary/10">
+                  <p className="text-sm text-primary font-medium mb-1">Total Contado</p>
                   <p className="text-3xl font-bold text-foreground">{div.countedQuantity}</p>
                 </div>
               </div>
@@ -94,13 +94,13 @@ export default async function DivergenceDetailsPage({ params }: { params: Promis
               <CardTitle>Histórico de Auditoria</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-gray-300 before:to-transparent">
+              <div className="space-y-4 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before: before: before: before:">
                 
                 <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                  <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-indigo-100 text-indigo-600 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+                  <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-primary/10 text-primary shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
                     <CheckCircle2 className="w-5 h-5" />
                   </div>
-                  <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border bg-card shadow-sm">
+                  <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-md border bg-card shadow-sm">
                     <div className="flex items-center justify-between mb-1">
                       <div className="font-bold text-foreground">Divergência Registrada</div>
                       <time className="font-mono text-xs text-muted-foreground">{new Date(div.createdAt).toLocaleDateString()}</time>
@@ -114,7 +114,7 @@ export default async function DivergenceDetailsPage({ params }: { params: Promis
                     <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-blue-100 text-blue-600 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
                       <AlertTriangle className="w-5 h-5" />
                     </div>
-                    <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border bg-card shadow-sm">
+                    <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-md border bg-card shadow-sm">
                       <div className="flex items-center justify-between mb-1">
                         <div className="font-bold text-foreground">Revisado</div>
                         <time className="font-mono text-xs text-muted-foreground">{div.reviewedAt && new Date(div.reviewedAt).toLocaleDateString()}</time>
@@ -130,7 +130,7 @@ export default async function DivergenceDetailsPage({ params }: { params: Promis
                     <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-emerald-100 text-emerald-600 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
                       <CheckCircle2 className="w-5 h-5" />
                     </div>
-                    <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border bg-card shadow-sm">
+                    <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-md border bg-card shadow-sm">
                       <div className="flex items-center justify-between mb-1">
                         <div className="font-bold text-foreground">Aprovado e Ajustado</div>
                         <time className="font-mono text-xs text-muted-foreground">{div.approvedAt && new Date(div.approvedAt).toLocaleDateString()}</time>
@@ -146,7 +146,7 @@ export default async function DivergenceDetailsPage({ params }: { params: Promis
                     <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-red-100 text-red-600 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
                       <XCircle className="w-5 h-5" />
                     </div>
-                    <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border bg-card shadow-sm">
+                    <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-md border bg-card shadow-sm">
                       <div className="flex items-center justify-between mb-1">
                         <div className="font-bold text-foreground">Rejeitado</div>
                         <time className="font-mono text-xs text-muted-foreground">{div.rejectedAt && new Date(div.rejectedAt).toLocaleDateString()}</time>

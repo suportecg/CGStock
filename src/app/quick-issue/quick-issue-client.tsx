@@ -161,7 +161,7 @@ export function QuickIssueClient() {
 
   if (!context) {
     return (
-      <div className="min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center p-4 bg-gradient-to-br from-emerald-500/10 via-background to-background relative overflow-hidden rounded-3xl">
+      <div className="min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center p-4     relative overflow-hidden rounded-md">
         {/* Background decorative elements */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
         
@@ -169,12 +169,12 @@ export function QuickIssueClient() {
           <div className="text-center space-y-4">
             <div className="relative mx-auto w-24 h-24 flex items-center justify-center">
               <div className="absolute inset-0 bg-emerald-500/20 rounded-full animate-ping duration-1000" />
-              <div className="relative bg-emerald-100 dark:bg-emerald-900/50 w-20 h-20 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/20 border border-emerald-200 dark:border-emerald-800">
+              <div className="relative bg-emerald-100 dark:bg-emerald-900/50 w-20 h-20 rounded-full flex items-center justify-center shadow-sm shadow-emerald-500/20 border border-emerald-200 dark:border-emerald-800">
                 <QrCode className="h-10 w-10 text-emerald-600 dark:text-emerald-400" />
               </div>
             </div>
             <div>
-              <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent pb-1">
+              <h1 className="text-3xl font-extrabold tracking-tight    bg-clip-text text-transparent pb-1">
                 Entrega Rápida
               </h1>
               <p className="text-muted-foreground mt-2 text-sm font-medium px-4">
@@ -183,7 +183,7 @@ export function QuickIssueClient() {
             </div>
           </div>
           
-          <form onSubmit={handleEmployeeScan} className="space-y-4 bg-card/40 backdrop-blur-xl p-6 rounded-[2rem] border border-border/50 shadow-xl">
+          <form onSubmit={handleEmployeeScan} className="space-y-4 bg-card  p-6 rounded-[2rem] border border-border shadow-sm">
             <div className="relative">
               <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input 
@@ -191,13 +191,13 @@ export function QuickIssueClient() {
                 placeholder="Código do funcionário..." 
                 value={employeeQr}
                 onChange={e => setEmployeeQr(e.target.value)}
-                className="pl-12 h-14 text-lg bg-background/80 border-border/50 shadow-inner focus-visible:ring-emerald-500 rounded-2xl font-medium"
+                className="pl-12 h-14 text-lg bg-background/80 border-border shadow-inner focus-visible:ring-emerald-500 rounded-md font-medium"
                 autoFocus
               />
             </div>
             <Button 
               type="submit" 
-              className="w-full h-14 text-lg font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl shadow-lg shadow-emerald-600/20 transition-all active:scale-[0.98]" 
+              className="w-full h-14 text-lg font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-md shadow-sm shadow-emerald-600/20  active:scale-[0.98]" 
               disabled={isScanningEmployee || !employeeQr}
             >
               {isScanningEmployee ? <Loader2 className="h-6 w-6 animate-spin" /> : "Avançar"}
@@ -248,7 +248,7 @@ export function QuickIssueClient() {
           <QrCode className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input 
             ref={productInputRef}
-            placeholder="Escanear Código do Produto (MAT-XXXX)" 
+            placeholder="Escanear Cód. Insumo do Produto (MAT-XXXX)" 
             value={productQr}
             onChange={e => setProductQr(e.target.value)}
             className="pl-10 py-6 text-center text-lg bg-white dark:bg-zinc-900 shadow-sm border-gray-200 dark:border-zinc-800 focus-visible:ring-emerald-500"
@@ -269,7 +269,7 @@ export function QuickIssueClient() {
           
           <div className="space-y-3">
             {cart.map(item => (
-              <div key={item.productId} className="flex flex-col gap-2 p-3 bg-white dark:bg-zinc-900 rounded-xl border border-gray-100 dark:border-zinc-800 shadow-sm">
+              <div key={item.productId} className="flex flex-col gap-2 p-3 bg-white dark:bg-zinc-900 rounded-md border border-gray-100 dark:border-zinc-800 shadow-sm">
                 <div className="flex justify-between items-start">
                   <div>
                     <p className="font-semibold text-gray-900 dark:text-gray-100 line-clamp-1">{item.name}</p>
@@ -313,7 +313,7 @@ export function QuickIssueClient() {
             <Button 
               onClick={handleConfirm}
               disabled={isConfirming}
-              className="w-full h-14 text-lg font-bold bg-emerald-600 hover:bg-emerald-700 shadow-lg shadow-emerald-600/20 active:scale-95 transition-all"
+              className="w-full h-14 text-lg font-bold bg-emerald-600 hover:bg-emerald-700 shadow-sm shadow-emerald-600/20 active:scale-95 "
             >
               {isConfirming ? (
                 <><Loader2 className="h-5 w-5 mr-2 animate-spin" /> Processando...</>

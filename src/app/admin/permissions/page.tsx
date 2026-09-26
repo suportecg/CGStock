@@ -23,7 +23,7 @@ export default async function PermissionsPage() {
           <BackButton />
           <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <ShieldCheck className="h-6 w-6 text-indigo-600" />
+            <ShieldCheck className="h-6 w-6 text-primary" />
             Matriz de Permissões
           </h1>
           <p className="text-muted-foreground text-sm mt-1">Controle de acesso granular por papel (Role-Based Access Control).</p>

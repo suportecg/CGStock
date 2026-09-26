@@ -43,7 +43,7 @@ export default async function NewTransferPage({
       <Card>
         <CardContent className="p-6">
           {error && (
-            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-200 flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
+            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-200 flex items-center gap-3   slide-in-">
               <PackageX className="h-5 w-5 text-red-600" />
               <p className="text-sm font-medium text-red-800">{error}</p>
             </div>
@@ -112,7 +112,7 @@ export default async function NewTransferPage({
                 <Button type="button" variant="outline">Cancelar</Button>
               </Link>
               
-              <Button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2">
+              <Button type="submit" className="bg-primary hover:bg-primary text-white flex items-center gap-2">
                 <ArrowRightLeft className="h-4 w-4" />
                 Executar Transferência
               </Button>

@@ -88,15 +88,15 @@ export default async function MovementsPage(props: {
 
       {summary && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-card/50 backdrop-blur-sm p-4 rounded-2xl border border-border/50 shadow-sm transition-all hover:border-primary/20">
+          <div className="bg-card  p-4 rounded-md border border-border shadow-sm  ">
             <p className="text-sm font-semibold text-muted-foreground">Entradas Totais</p>
             <p className="text-3xl font-black text-success mt-1">+{summary.totalIn}</p>
           </div>
-          <div className="bg-card/50 backdrop-blur-sm p-4 rounded-2xl border border-border/50 shadow-sm transition-all hover:border-primary/20">
+          <div className="bg-card  p-4 rounded-md border border-border shadow-sm  ">
             <p className="text-sm font-semibold text-muted-foreground">Saídas Totais</p>
             <p className="text-3xl font-black text-destructive mt-1">-{summary.totalOut}</p>
           </div>
-          <div className="bg-card/50 backdrop-blur-sm p-4 rounded-2xl border border-border/50 shadow-sm transition-all hover:border-primary/20">
+          <div className="bg-card  p-4 rounded-md border border-border shadow-sm  ">
             <p className="text-sm font-semibold text-muted-foreground">Movimentações no Filtro</p>
             <p className="text-3xl font-black text-foreground mt-1">{totalCount}</p>
           </div>
@@ -116,7 +116,7 @@ export default async function MovementsPage(props: {
         }} 
       />
 
-      <div className="bg-card/95 backdrop-blur-xl rounded-2xl border border-border/40 shadow-xl shadow-indigo-500/5 overflow-hidden transition-all duration-200">
+      <div className="bg-card  rounded-md border border-border shadow-sm  overflow-hidden  ">
         {/* Mobile View: Cards */}
         <div className="md:hidden divide-y divide-border/50">
           {movements.length === 0 ? (
@@ -138,7 +138,7 @@ export default async function MovementsPage(props: {
               if (mov.type === 'RETURN') { badgeVariant = 'default'; typeLabel = 'Devolução' }
               
               return (
-                <div key={mov.id} className="p-4 space-y-3 hover:bg-muted/30 transition-colors">
+                <div key={mov.id} className="p-4 space-y-3 hover:bg-muted/30 ">
                   <div className="flex justify-between items-start gap-2">
                     <div className="flex flex-col">
                       <span className="text-xs font-semibold text-muted-foreground uppercase">{mov.product.code}</span>
@@ -165,7 +165,7 @@ export default async function MovementsPage(props: {
                     </div>
                   </div>
                   
-                  <div className="flex items-center justify-between pt-2 border-t border-border/50">
+                  <div className="flex items-center justify-between pt-2 border-t border-border">
                     <div className="flex flex-col text-xs text-muted-foreground">
                       <span>{new Date(mov.createdAt).toLocaleString('pt-BR')}</span>
                       <span>Por: {mov.performedBy.name.split(' ')[0]}</span>

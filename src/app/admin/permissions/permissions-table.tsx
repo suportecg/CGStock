@@ -41,7 +41,7 @@ export function PermissionsTable({ roles, permissions }: PermissionsTableProps) 
   }
 
   return (
-    <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
+    <div className="bg-card rounded-md shadow-sm border border-border overflow-hidden">
       <div className="overflow-x-auto">
         <Table>
           <TableHeader className="bg-muted/50">

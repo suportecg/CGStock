@@ -32,10 +32,10 @@ async function RequesterDashboard({ user, qrToken }: { user: any, qrToken: strin
 
       <div className="grid md:grid-cols-2 gap-8">
         {/* QR Code Card */}
-        <Card className="border-indigo-500/20 shadow-lg shadow-indigo-500/5 bg-gradient-to-br from-indigo-50/50 to-white dark:from-indigo-950/20 dark:to-zinc-950">
+        <Card className="border-primary/20 shadow-sm     dark: dark:">
           <CardHeader className="text-center pb-2">
             <CardTitle className="text-lg flex justify-center items-center gap-2">
-              <QrCode className="h-5 w-5 text-indigo-600" />
+              <QrCode className="h-5 w-5 text-primary" />
               Seu Crachá Digital
             </CardTitle>
             <CardDescription>Para uso na Entrega Rápida</CardDescription>
@@ -46,10 +46,10 @@ async function RequesterDashboard({ user, qrToken }: { user: any, qrToken: strin
                 userId={user.userId} 
                 userName={user.name} 
                 qrToken={qrToken} 
-                className="scale-110 shadow-xl border-none" 
+                className="scale-110 shadow-sm border-none" 
               />
             ) : (
-              <div className="text-center p-6 bg-muted/50 rounded-xl border border-dashed">
+              <div className="text-center p-6 bg-muted/50 rounded-md border border-dashed">
                 <p className="text-sm text-muted-foreground">Você ainda não possui um QR Code de retirada.</p>
                 <p className="text-xs text-muted-foreground mt-2">Solicite ao gestor.</p>
               </div>
@@ -66,7 +66,7 @@ async function RequesterDashboard({ user, qrToken }: { user: any, qrToken: strin
                 <CardDescription>Acompanhe seus pedidos</CardDescription>
               </div>
               <Link href="/requests/new">
-                <Button size="sm" className="bg-indigo-600 hover:bg-indigo-700">Nova Requisição</Button>
+                <Button size="sm" className="bg-primary hover:bg-primary">Nova Requisição</Button>
               </Link>
             </CardHeader>
             <CardContent className="p-0">
@@ -77,9 +77,9 @@ async function RequesterDashboard({ user, qrToken }: { user: any, qrToken: strin
               ) : (
                 <div className="divide-y">
                   {recentRequests.map(req => (
-                    <div key={req.id} className="p-4 flex items-center justify-between hover:bg-muted/30 transition-colors">
+                    <div key={req.id} className="p-4 flex items-center justify-between hover:bg-muted/30 ">
                       <div className="space-y-1">
-                        <Link href={`/requests/${req.id}`} className="font-bold hover:text-indigo-600 transition-colors">
+                        <Link href={`/requests/${req.id}`} className="font-bold hover:text-primary ">
                           {req.requestNumber}
                         </Link>
                         <div className="flex items-center text-xs text-muted-foreground gap-2">
@@ -184,7 +184,7 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="rounded-2xl border-border/50 bg-card/50 backdrop-blur-sm shadow-sm transition-all hover:shadow-md hover:border-primary/20">
+        <Card className="rounded-md border-border bg-card  shadow-sm  hover:shadow-sm ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-semibold text-muted-foreground">Divergências</CardTitle>
             <div className="bg-amber-100 p-2 rounded-lg">
@@ -196,7 +196,7 @@ export default async function DashboardPage() {
             <p className="text-xs text-muted-foreground mt-1">Pendentes de análise</p>
           </CardContent>
         </Card>
-        <Card className="rounded-2xl border-border/50 bg-card/50 backdrop-blur-sm shadow-sm transition-all hover:shadow-md hover:border-primary/20">
+        <Card className="rounded-md border-border bg-card  shadow-sm  hover:shadow-sm ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-semibold text-muted-foreground">Ajustes</CardTitle>
             <div className="bg-blue-100 p-2 rounded-lg">
@@ -208,7 +208,7 @@ export default async function DashboardPage() {
             <p className="text-xs text-muted-foreground mt-1">Aguardando aprovação</p>
           </CardContent>
         </Card>
-        <Card className="rounded-2xl border-border/50 bg-card/50 backdrop-blur-sm shadow-sm transition-all hover:shadow-md hover:border-primary/20">
+        <Card className="rounded-md border-border bg-card  shadow-sm  hover:shadow-sm ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-semibold text-muted-foreground">Transferências</CardTitle>
             <div className="bg-emerald-100 p-2 rounded-lg">
@@ -220,7 +220,7 @@ export default async function DashboardPage() {
             <p className="text-xs text-muted-foreground mt-1">Em andamento</p>
           </CardContent>
         </Card>
-        <Card className="rounded-2xl border-border/50 bg-card/50 backdrop-blur-sm shadow-sm transition-all hover:shadow-md hover:border-primary/20">
+        <Card className="rounded-md border-border bg-card  shadow-sm  hover:shadow-sm ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-semibold text-muted-foreground">Total de Produtos</CardTitle>
             <div className="bg-slate-100 p-2 rounded-lg">
@@ -235,7 +235,7 @@ export default async function DashboardPage() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4 rounded-2xl border-border/50 shadow-sm">
+        <Card className="col-span-4 rounded-md border-border shadow-sm">
           <CardHeader>
             <div className="flex justify-between items-center">
               <div>
@@ -252,7 +252,7 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="col-span-3 rounded-2xl border-border/50 shadow-sm">
+        <Card className="col-span-3 rounded-md border-border shadow-sm">
           <CardHeader>
             <CardTitle className="text-lg font-bold">Últimas Movimentações</CardTitle>
             <CardDescription className="mt-1">Entradas, saídas e ajustes recentes no sistema.</CardDescription>
@@ -260,7 +260,7 @@ export default async function DashboardPage() {
           <CardContent>
             <div className="space-y-4">
               {recentMovements.length === 0 ? (
-                <div className="text-center py-6 text-sm text-muted-foreground bg-muted/30 rounded-xl">
+                <div className="text-center py-6 text-sm text-muted-foreground bg-muted/30 rounded-md">
                   Nenhuma movimentação.
                 </div>
               ) : (
@@ -278,9 +278,9 @@ export default async function DashboardPage() {
                   const Icon = mov.type === 'RETURN' ? RotateCcw : ArrowRightLeft
 
                   return (
-                    <div key={mov.id} className="flex items-center justify-between border-b border-border/50 pb-4 last:border-0 last:pb-0 transition-colors hover:bg-muted/20 -mx-2 px-2 rounded-lg py-2">
+                    <div key={mov.id} className="flex items-center justify-between border-b border-border pb-4 last:border-0 last:pb-0  hover:bg-muted/20 -mx-2 px-2 rounded-lg py-2">
                       <div className="flex items-center space-x-4">
-                        <div className={`flex h-10 w-10 items-center justify-center rounded-xl shadow-inner ${
+                        <div className={`flex h-10 w-10 items-center justify-center rounded-md shadow-inner ${
                           isPositive ? 'bg-success/10 text-success' : 'bg-destructive/10 text-destructive'
                         }`}>
                           <Icon className="h-4 w-4" />
@@ -305,7 +305,7 @@ export default async function DashboardPage() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-1">
-        <Card className="rounded-2xl border-border/50 shadow-sm">
+        <Card className="rounded-md border-border shadow-sm">
           <CardHeader>
             <div className="flex justify-between items-center">
               <div>
@@ -320,7 +320,7 @@ export default async function DashboardPage() {
           <CardContent>
             <div className="space-y-4">
               {activeInventories.length === 0 ? (
-                <div className="text-center py-6 text-sm text-muted-foreground bg-muted/30 rounded-xl">
+                <div className="text-center py-6 text-sm text-muted-foreground bg-muted/30 rounded-md">
                   Nenhum inventário em andamento no momento.
                 </div>
               ) : (
@@ -330,9 +330,9 @@ export default async function DashboardPage() {
                   const progress = total > 0 ? Math.round((completed / total) * 100) : 0
 
                   return (
-                    <div key={inv.id} className="group flex items-center justify-between rounded-xl border border-border/50 bg-background/50 p-4 transition-all hover:border-primary/30 hover:shadow-sm">
+                    <div key={inv.id} className="group flex items-center justify-between rounded-md border border-border bg-background/50 p-4   hover:shadow-sm">
                       <div className="flex flex-col space-y-1">
-                        <Link href={`/inventory/${inv.id}`} className="font-bold text-foreground group-hover:text-primary transition-colors">
+                        <Link href={`/inventory/${inv.id}`} className="font-bold text-foreground group-hover:text-primary ">
                           {inv.name}
                         </Link>
                         <span className="text-sm font-medium text-muted-foreground flex items-center gap-1.5 mt-1">

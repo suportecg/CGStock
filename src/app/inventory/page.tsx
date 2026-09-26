@@ -27,14 +27,14 @@ export default async function InventoryPage() {
           <p className="text-muted-foreground">Gerencie contagens, coletas e conferências de estoque.</p>
         </div>
         <Link href="/inventory/new">
-          <Button className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white">
+          <Button className="flex items-center gap-2 bg-primary hover:bg-primary text-white">
             <Plus className="h-4 w-4" />
             Novo Inventário
           </Button>
         </Link>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 bg-card/95 backdrop-blur-xl p-4 rounded-2xl border border-border/40 shadow-sm">
+      <div className="flex flex-col sm:flex-row gap-4 bg-card  p-4 rounded-md border border-border shadow-sm">
         <div className="relative flex-1">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input placeholder="Buscar inventário..." className="pl-9" />
@@ -65,11 +65,11 @@ export default async function InventoryPage() {
 
           return (
             <Link key={inv.id} href={`/inventory/${inv.id}`}>
-              <Card className="hover:shadow-md transition-shadow h-full">
+              <Card className="hover:shadow-sm  h-full">
                 <CardContent className="p-6 h-full flex flex-col">
                   <div className="flex justify-between items-start mb-4">
-                    <div className="p-2 bg-indigo-50 rounded-lg">
-                      <ClipboardList className="h-6 w-6 text-indigo-600" />
+                    <div className="p-2 bg-primary/5 rounded-lg">
+                      <ClipboardList className="h-6 w-6 text-primary" />
                     </div>
                     {/* @ts-expect-error: Badge variant accepts dynamic string mapping here although TS complains */}
                     <Badge variant={statusVariant}>{statusLabel}</Badge>

@@ -26,7 +26,7 @@ export default async function SuppliersPage() {
         </Link>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 bg-card/95 backdrop-blur-xl p-4 rounded-2xl border border-border/40 shadow-sm">
+      <div className="flex flex-col sm:flex-row gap-4 bg-card  p-4 rounded-md border border-border shadow-sm">
         <div className="relative flex-1">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input placeholder="Buscar fornecedor por nome ou documento..." className="pl-9" />
@@ -39,10 +39,10 @@ export default async function SuppliersPage() {
         )}
         {suppliers.map(supplier => (
           <Link key={supplier.id} href={`/admin/suppliers/${supplier.id}`}>
-            <Card className="hover:border-blue-300 transition-colors cursor-pointer group h-full">
+            <Card className="hover:border-blue-300  cursor-pointer group h-full">
               <CardContent className="p-6 flex flex-col h-full">
                 <div className="flex items-start justify-between mb-4">
-                  <div className="h-12 w-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                  <div className="h-12 w-12 bg-blue-50 text-blue-600 rounded-md flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white ">
                     <Truck className="h-6 w-6" />
                   </div>
                   <Badge variant={supplier.status === 'ACTIVE' ? 'success' : 'secondary'} className="text-[10px]">

@@ -112,7 +112,7 @@ export default function ImportPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="border-blue-200 bg-blue-50/50 cursor-pointer hover:border-blue-400 transition-colors">
+        <Card className="border-blue-200 bg-blue-50/50 cursor-pointer hover:border-blue-400 ">
           <CardContent className="p-4 flex items-center gap-3">
             <div className="h-10 w-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center">
               <FileType className="h-5 w-5" />
@@ -125,7 +125,7 @@ export default function ImportPage() {
           </CardContent>
         </Card>
         
-        <Card className="cursor-pointer hover:border-gray-300 transition-colors">
+        <Card className="cursor-pointer hover:border-gray-300 ">
           <CardContent className="p-4 flex items-center gap-3">
             <div className="h-10 w-10 bg-accent text-muted-foreground rounded-full flex items-center justify-center">
               <FileType className="h-5 w-5" />
@@ -138,7 +138,7 @@ export default function ImportPage() {
           </CardContent>
         </Card>
 
-        <Card className="cursor-pointer hover:border-gray-300 transition-colors opacity-50">
+        <Card className="cursor-pointer hover:border-gray-300  opacity-50">
           <CardContent className="p-4 flex items-center gap-3">
             <div className="h-10 w-10 bg-accent text-muted-foreground rounded-full flex items-center justify-center">
               <FileType className="h-5 w-5" />
@@ -153,7 +153,7 @@ export default function ImportPage() {
 
       <Card>
         <CardContent 
-          className={`p-10 flex flex-col items-center justify-center text-center border-2 border-dashed rounded-xl m-4 transition-colors ${
+          className={`p-10 flex flex-col items-center justify-center text-center border-2 border-dashed rounded-md m-4  ${
             isDragging ? 'border-blue-500 bg-blue-50' : 'border-border bg-muted/50'
           }`}
           onDragOver={handleDragOver}
@@ -178,7 +178,7 @@ export default function ImportPage() {
               </div>
               <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
                 <div 
-                  className="h-full bg-blue-500 transition-all duration-300 ease-out" 
+                  className="h-full bg-blue-500   ease-out" 
                   style={{ width: `${Math.min(progress, 100)}%` }}
                 />
               </div>

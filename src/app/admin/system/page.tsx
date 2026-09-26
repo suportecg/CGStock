@@ -54,7 +54,7 @@ export default async function SystemHealthPage() {
 
         <Card>
           <CardContent className="p-6 flex flex-col items-center justify-center text-center">
-            <Database className="h-8 w-8 text-indigo-500 mb-2" />
+            <Database className="h-8 w-8 text-primary mb-2" />
             <p className="text-sm text-muted-foreground font-medium">Status do Banco</p>
             <p className="text-lg font-bold text-foreground truncate max-w-full" title={dbStatus}>{dbStatus}</p>
             <p className="text-xs text-muted-foreground mt-1">{dbLatency}ms latência</p>

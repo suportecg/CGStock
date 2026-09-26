@@ -41,7 +41,7 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
               <h3 className="text-lg font-medium border-b pb-2">Informações Básicas</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Código Interno</label>
+                    <label className="text-sm font-medium">Cód. Insumo</label>
                   <Input name="code" defaultValue={product.code} required />
                 </div>
                 <div className="space-y-2">

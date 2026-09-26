@@ -64,15 +64,15 @@ export function UserActions({ userId, userName }: { userId: string, userName: st
       </Button>
 
       {isOpen && (
-        <div className="absolute right-0 top-10 z-50 w-44 rounded-xl border border-border/50 bg-card/95 backdrop-blur-md p-1.5 shadow-lg animate-in fade-in zoom-in-95 duration-200">
+        <div className="absolute right-0 top-10 z-50 w-44 rounded-md border border-border bg-card  p-1.5 shadow-sm    ">
           <Link href={`/admin/users/print-badges?ids=${userId}`}>
-            <button className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-foreground hover:bg-muted transition-colors">
+            <button className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-foreground hover:bg-muted ">
               <Printer className="h-4 w-4 text-muted-foreground" />
               Imprimir Crachá
             </button>
           </Link>
           <Link href={`/admin/users/${userId}/edit`}>
-            <button className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-foreground hover:bg-muted transition-colors">
+            <button className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-foreground hover:bg-muted ">
               <Pencil className="h-4 w-4 text-muted-foreground" />
               Editar
             </button>
@@ -82,7 +82,7 @@ export function UserActions({ userId, userName }: { userId: string, userName: st
               setIsOpen(false)
               setShowDeleteModal(true)
             }}
-            className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-destructive hover:bg-destructive/10 transition-colors mt-1"
+            className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-destructive hover:bg-destructive/10  mt-1"
           >
             <Trash2 className="h-4 w-4" />
             Excluir
@@ -91,8 +91,8 @@ export function UserActions({ userId, userName }: { userId: string, userName: st
       )}
 
       {showDeleteModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-sm rounded-2xl bg-card p-6 shadow-2xl border border-border/50 zoom-in-95 animate-in duration-200">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60    ">
+          <div className="w-full max-w-sm rounded-md bg-card p-6 shadow-sm border border-border   ">
             <h2 className="text-xl font-bold text-foreground">Excluir Usuário?</h2>
             <p className="mt-2 text-sm text-muted-foreground">
               Você tem certeza que deseja excluir o usuário <span className="font-bold text-foreground">{userName}</span>? 
@@ -103,7 +103,7 @@ export function UserActions({ userId, userName }: { userId: string, userName: st
                 variant="outline" 
                 onClick={() => setShowDeleteModal(false)}
                 disabled={isPending}
-                className="rounded-xl"
+                className="rounded-md"
               >
                 Cancelar
               </Button>
@@ -111,7 +111,7 @@ export function UserActions({ userId, userName }: { userId: string, userName: st
                 variant="destructive" 
                 onClick={handleDelete}
                 disabled={isPending}
-                className="rounded-xl shadow-md"
+                className="rounded-md shadow-sm"
               >
                 {isPending ? "Excluindo..." : "Sim, Excluir"}
               </Button>
@@ -121,8 +121,8 @@ export function UserActions({ userId, userName }: { userId: string, userName: st
       )}
 
       {showHistoryModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-sm rounded-2xl bg-card p-6 shadow-2xl border border-border/50 zoom-in-95 animate-in duration-200">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60    ">
+          <div className="w-full max-w-sm rounded-md bg-card p-6 shadow-sm border border-border   ">
             <h2 className="text-xl font-bold text-foreground">Usuário com Histórico</h2>
             <p className="mt-2 text-sm text-muted-foreground">
               Este usuário não pode ser excluído completamente pois possui ações registradas no sistema.
@@ -134,7 +134,7 @@ export function UserActions({ userId, userName }: { userId: string, userName: st
                 variant="outline" 
                 onClick={() => setShowHistoryModal(false)}
                 disabled={isPending}
-                className="rounded-xl"
+                className="rounded-md"
               >
                 Não
               </Button>
@@ -142,7 +142,7 @@ export function UserActions({ userId, userName }: { userId: string, userName: st
                 variant="destructive" 
                 onClick={handleSoftDelete}
                 disabled={isPending}
-                className="rounded-xl shadow-md"
+                className="rounded-md shadow-sm"
               >
                 {isPending ? "Apagando..." : "Sim, Apagar"}
               </Button>

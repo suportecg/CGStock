@@ -90,7 +90,7 @@ export default function SyncPage() {
         <h1 className="text-xl font-bold">Status do Coletor</h1>
       </div>
 
-      <Card className="mb-6 border-none shadow-sm rounded-xl overflow-hidden">
+      <Card className="mb-6 border-none shadow-sm rounded-md overflow-hidden">
         <div className={`p-4 flex items-center justify-between text-white ${isOnline ? 'bg-emerald-600' : 'bg-red-500'}`}>
           <div className="flex items-center gap-3">
             {isOnline ? <Cloud className="h-6 w-6" /> : <CloudOff className="h-6 w-6" />}
@@ -109,7 +109,7 @@ export default function SyncPage() {
           <Button 
             onClick={syncNow} 
             disabled={!isOnline || isSyncing || pendingCount === 0} 
-            className="w-full h-12 bg-indigo-600 hover:bg-indigo-700"
+            className="w-full h-12 bg-primary hover:bg-primary"
           >
             {isSyncing ? (
               <RefreshCw className="h-5 w-5 mr-2 animate-spin" />
@@ -124,14 +124,14 @@ export default function SyncPage() {
       <h2 className="text-muted-foreground font-semibold mb-4 ml-1">Fila de Sincronização</h2>
       
       {tasks.length === 0 ? (
-        <div className="text-center p-8 bg-muted rounded-xl text-muted-foreground border border-dashed">
+        <div className="text-center p-8 bg-muted rounded-md text-muted-foreground border border-dashed">
           <CheckCircle2 className="h-10 w-10 mx-auto mb-2 opacity-50" />
           <p>Nenhuma coleta na fila.</p>
         </div>
       ) : (
         <div className="space-y-3">
           {tasks.map(task => (
-            <div key={task.id} className="bg-card p-4 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+            <div key={task.id} className="bg-card p-4 rounded-md shadow-sm border border-gray-100 flex items-center justify-between">
               <div>
                 <p className="font-bold text-sm">{task.operation === 'SUBMIT_COLLECTION' ? 'Envio de Coleta' : task.operation}</p>
                 <p className="text-xs text-muted-foreground">{new Date(task.createdAt).toLocaleString()}</p>
@@ -141,7 +141,7 @@ export default function SyncPage() {
                 {task.status === 'SYNCED' && <Badge variant="success">Sincronizado</Badge>}
                 {task.status === 'PENDING' && <Badge variant="outline" className="text-muted-foreground">Pendente</Badge>}
                 {task.status === 'ERROR' && <Badge variant="destructive" className="flex gap-1 items-center"><AlertCircle className="h-3 w-3"/> Erro ({task.attempts})</Badge>}
-                {task.status === 'SYNCING' && <Badge variant="secondary" className="animate-pulse">Enviando</Badge>}
+                {task.status === 'SYNCING' && <Badge variant="secondary" className="">Enviando</Badge>}
               </div>
             </div>
           ))}

@@ -49,7 +49,7 @@ export default async function InventoryReportPage({ searchParams }: { searchPara
         </div>
       </div>
 
-      <div className="bg-card/95 backdrop-blur-xl rounded-2xl border border-border/40 shadow-xl shadow-indigo-500/5 overflow-hidden transition-all duration-200">
+      <div className="bg-card  rounded-md border border-border shadow-sm  overflow-hidden  ">
         {inventories.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground">
             Nenhum inventário registrado.
@@ -59,7 +59,7 @@ export default async function InventoryReportPage({ searchParams }: { searchPara
             <Table>
               <TableHeader className="bg-muted">
                 <TableRow>
-                  <TableHead>Código</TableHead>
+                  <TableHead>Cód. Insumo</TableHead>
                   <TableHead>Data Criação</TableHead>
                   <TableHead>Almoxarifado</TableHead>
                   <TableHead>Status</TableHead>
@@ -87,7 +87,7 @@ export default async function InventoryReportPage({ searchParams }: { searchPara
                     <TableCell className="text-right font-bold text-red-600">{inv._count.divergences}</TableCell>
                     <TableCell className="text-right">
                       <Link href={`/inventory/${inv.id}`}>
-                        <span className="inline-flex items-center gap-1 text-xs text-indigo-600 hover:underline">
+                        <span className="inline-flex items-center gap-1 text-xs text-primary hover:underline">
                           Detalhes <ExternalLink className="h-3 w-3" />
                         </span>
                       </Link>

@@ -66,10 +66,10 @@ export default async function StockPage() {
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 bg-card/95 backdrop-blur-xl p-4 rounded-2xl border border-border/40 shadow-sm">
+      <div className="flex flex-col sm:flex-row gap-4 bg-card  p-4 rounded-md border border-border shadow-sm">
         <div className="relative flex-1">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Buscar por código ou produto..." className="pl-9" />
+          <Input placeholder="Buscar por cód. insumo ou produto..." className="pl-9" />
         </div>
         <div className="flex gap-2">
           <Button variant="outline" className="flex items-center gap-2">
@@ -79,7 +79,7 @@ export default async function StockPage() {
         </div>
       </div>
 
-      <div className="bg-card/95 backdrop-blur-xl rounded-2xl border border-border/40 shadow-xl shadow-indigo-500/5 overflow-hidden transition-all duration-200">
+      <div className="bg-card  rounded-md border border-border shadow-sm  overflow-hidden  ">
         {/* Mobile View: Cards */}
         <div className="md:hidden divide-y divide-border/50">
           {stockData.length === 0 ? (
@@ -92,14 +92,14 @@ export default async function StockPage() {
             </div>
           ) : (
             stockData.map((data) => (
-              <div key={data.product.id} className="p-5 space-y-4 bg-transparent hover:bg-muted/20 transition-colors">
+              <div key={data.product.id} className="p-5 space-y-4 bg-transparent hover:bg-muted/20 ">
                 <div className="flex justify-between items-start gap-3">
                   <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 shrink-0 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-bold shadow-sm uppercase">
+                    <div className="h-10 w-10 shrink-0 rounded-md bg-primary/10 flex items-center justify-center text-primary font-bold shadow-sm uppercase">
                       {data.product.name.charAt(0)}
                     </div>
                     <div className="flex flex-col">
-                      <Link href={`/stock/${data.product.id}`} className="font-semibold text-base text-foreground leading-tight hover:text-primary transition-colors line-clamp-1">
+                      <Link href={`/stock/${data.product.id}`} className="font-semibold text-base text-foreground leading-tight hover:text-primary  line-clamp-1">
                         {data.product.name}
                       </Link>
                       <span className="text-xs text-muted-foreground mt-0.5">Cod: {data.product.code}</span>
@@ -107,13 +107,13 @@ export default async function StockPage() {
                   </div>
                   {data.status === 'NORMAL' && (
                     <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 text-[10px] font-medium whitespace-nowrap">
-                      <span className="h-1 w-1 rounded-full bg-emerald-600 animate-pulse"></span>
+                      <span className="h-1 w-1 rounded-full bg-emerald-600 "></span>
                       Normal
                     </div>
                   )}
                   {data.status === 'LOW' && (
                     <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-600 border border-orange-500/20 text-[10px] font-medium whitespace-nowrap">
-                      <span className="h-1 w-1 rounded-full bg-orange-600 animate-pulse"></span>
+                      <span className="h-1 w-1 rounded-full bg-orange-600 "></span>
                       Baixo
                     </div>
                   )}
@@ -131,12 +131,12 @@ export default async function StockPage() {
                   )}
                 </div>
                 
-                <div className="grid grid-cols-3 gap-3 text-sm p-3 bg-muted/30 rounded-lg border border-border/30">
+                <div className="grid grid-cols-3 gap-3 text-sm p-3 bg-muted/30 rounded-lg border border-border">
                   <div className="text-center">
                     <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-0.5">Físico</span>
                     <span className="font-medium text-foreground">{data.totalQuantity} <span className="text-[10px]">{data.product.unit.code}</span></span>
                   </div>
-                  <div className="text-center border-x border-border/30">
+                  <div className="text-center border-x border-border">
                     <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-0.5">Reserv.</span>
                     <span className="font-medium text-foreground">{data.totalReserved}</span>
                   </div>
@@ -146,14 +146,14 @@ export default async function StockPage() {
                   </div>
                 </div>
                 
-                <div className="flex items-center justify-between pt-3 border-t border-border/30">
+                <div className="flex items-center justify-between pt-3 border-t border-border">
                   <div className="flex items-center gap-2">
-                    <div className="px-2.5 py-1 rounded-full bg-secondary/50 border border-border/50 text-xs font-medium text-muted-foreground">
+                    <div className="px-2.5 py-1 rounded-full bg-secondary/50 border border-border text-xs font-medium text-muted-foreground">
                       {data.product.category.name}
                     </div>
                   </div>
                   <Link href={`/stock/${data.product.id}`}>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full hover:bg-blue-500/10 hover:text-blue-600 transition-colors">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full hover:bg-blue-500/10 hover:text-blue-600 ">
                       <Box className="h-4 w-4" />
                     </Button>
                   </Link>
@@ -167,8 +167,8 @@ export default async function StockPage() {
         <div className="hidden md:block overflow-x-auto p-1">
           <Table className="w-full">
           <TableHeader>
-            <TableRow className="border-b border-border/40 hover:bg-transparent">
-              <TableHead className="h-14 px-6 font-semibold text-muted-foreground text-sm uppercase tracking-wider">Código</TableHead>
+            <TableRow className="border-b border-border hover:bg-transparent">
+              <TableHead className="h-14 px-6 font-semibold text-muted-foreground text-sm uppercase tracking-wider">Cód. Insumo</TableHead>
               <TableHead className="h-14 px-6 font-semibold text-muted-foreground text-sm uppercase tracking-wider">Produto</TableHead>
               <TableHead className="h-14 px-6 font-semibold text-muted-foreground text-sm uppercase tracking-wider">Categoria</TableHead>
               <TableHead className="h-14 px-6 font-semibold text-muted-foreground text-sm uppercase tracking-wider text-right">Físico</TableHead>
@@ -196,21 +196,21 @@ export default async function StockPage() {
               stockData.map((data) => (
                 <TableRow 
                   key={data.product.id}
-                  className="group border-b border-border/40 hover:bg-primary/[0.02] transition-all duration-300 ease-in-out"
+                  className="group border-b border-border hover:bg-primary/[0.02]   "
                 >
                   <TableCell className="px-6 py-4 font-mono text-sm text-muted-foreground">{data.product.code}</TableCell>
                   <TableCell className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-bold shadow-sm group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 uppercase text-sm">
+                      <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-bold shadow-sm group-hover:bg-primary group-hover:text-primary-foreground   uppercase text-sm">
                         {data.product.name.charAt(0)}
                       </div>
-                      <Link href={`/stock/${data.product.id}`} className="font-semibold text-base text-foreground group-hover:text-primary transition-colors duration-300">
+                      <Link href={`/stock/${data.product.id}`} className="font-semibold text-base text-foreground group-hover:text-primary  ">
                         {data.product.name}
                       </Link>
                     </div>
                   </TableCell>
                   <TableCell className="px-6 py-4">
-                    <span className="text-muted-foreground bg-muted/30 px-2 py-1 rounded-md border border-border/30 text-sm">
+                    <span className="text-muted-foreground bg-muted/30 px-2 py-1 rounded-md border border-border text-sm">
                       {data.product.category.name}
                     </span>
                   </TableCell>
@@ -262,7 +262,7 @@ export default async function StockPage() {
                         variant="ghost" 
                         size="icon" 
                         title="Ver Distribuição"
-                        className="h-9 w-9 rounded-full opacity-0 group-hover:opacity-100 hover:bg-blue-500/10 hover:text-blue-600 transition-all duration-300 translate-x-2 group-hover:translate-x-0"
+                        className="h-9 w-9 rounded-full opacity-0 group-hover:opacity-100 hover:bg-blue-500/10 hover:text-blue-600   translate-x-2 group-hover:translate-x-0"
                       >
                         <Box className="h-4 w-4" />
                       </Button>

@@ -27,7 +27,7 @@ export default async function WarehousesPage() {
         </Link>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 bg-card/95 backdrop-blur-xl p-4 rounded-2xl border border-border/40 shadow-sm">
+      <div className="flex flex-col sm:flex-row gap-4 bg-card  p-4 rounded-md border border-border shadow-sm">
         <div className="relative flex-1">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input placeholder="Buscar almoxarifado por código ou nome..." className="pl-9" />
@@ -40,9 +40,9 @@ export default async function WarehousesPage() {
         )}
         {warehouses.map(warehouse => (
           <Link key={warehouse.id} href={`/admin/warehouses/${warehouse.id}`}>
-            <Card className="hover:border-blue-300 transition-colors cursor-pointer group h-full">
+            <Card className="hover:border-blue-300  cursor-pointer group h-full">
               <CardContent className="p-6 flex flex-col items-center text-center h-full">
-                <div className="h-16 w-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                <div className="h-16 w-16 bg-blue-50 text-blue-600 rounded-md flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white ">
                   <PackageOpen className="h-8 w-8" />
                 </div>
                 <h3 className="font-bold text-xl mb-1">{warehouse.name}</h3>

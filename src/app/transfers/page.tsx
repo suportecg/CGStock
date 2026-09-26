@@ -31,14 +31,14 @@ export default async function TransfersPage() {
           </div>
         </div>
         <Link href="/transfers/new">
-          <Button className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2">
+          <Button className="bg-primary hover:bg-primary text-white flex items-center gap-2">
             <Plus className="h-4 w-4" />
             Nova Transferência
           </Button>
         </Link>
       </div>
 
-      <div className="bg-card/95 backdrop-blur-xl rounded-2xl border border-border/40 shadow-xl shadow-indigo-500/5 overflow-hidden transition-all duration-200">
+      <div className="bg-card  rounded-md border border-border shadow-sm  overflow-hidden  ">
         <Table>
           <TableHeader>
             <TableRow>

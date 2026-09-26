@@ -35,7 +35,7 @@ export default async function RequestsPage({ searchParams }: { searchParams: Pro
         </Link>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 bg-card/95 backdrop-blur-xl p-4 rounded-2xl border border-border/40 shadow-sm">
+      <div className="flex flex-col sm:flex-row gap-4 bg-card  p-4 rounded-md border border-border shadow-sm">
         <SearchInput placeholder="Buscar por número ou solicitante..." />
         <div className="flex gap-2">
           <Button variant="outline" className="flex items-center gap-2">
@@ -45,7 +45,7 @@ export default async function RequestsPage({ searchParams }: { searchParams: Pro
         </div>
       </div>
 
-      <div className="bg-card/95 backdrop-blur-xl rounded-2xl border border-border/40 shadow-xl shadow-indigo-500/5 overflow-hidden transition-all duration-200">
+      <div className="bg-card  rounded-md border border-border shadow-sm  overflow-hidden  ">
         {/* Mobile View: Cards */}
         <div className="md:hidden divide-y divide-border">
           {requests.length === 0 ? (
@@ -69,7 +69,7 @@ export default async function RequestsPage({ searchParams }: { searchParams: Pro
               if (req.priority === 'URGENT') prioColor = "text-red-600 font-bold"
 
               return (
-                <div key={req.id} className="p-4 space-y-3 bg-card hover:bg-muted/30 transition-colors">
+                <div key={req.id} className="p-4 space-y-3 bg-card hover:bg-muted/30 ">
                   <div className="flex justify-between items-start gap-2">
                     <div className="flex flex-col">
                       <span className="text-xs font-semibold text-muted-foreground uppercase">
@@ -100,7 +100,7 @@ export default async function RequestsPage({ searchParams }: { searchParams: Pro
                     </div>
                   </div>
                   
-                  <div className="flex items-center justify-between pt-2 border-t border-border/50">
+                  <div className="flex items-center justify-between pt-2 border-t border-border">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <span className="font-medium text-foreground">{req._count.items}</span> itens
                     </div>

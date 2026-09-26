@@ -23,7 +23,7 @@ export default async function SettingsPage() {
           <BackButton />
           <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Settings2 className="h-6 w-6 text-indigo-600" />
+            <Settings2 className="h-6 w-6 text-primary" />
             Configurações do Sistema
           </h1>
           <p className="text-muted-foreground text-sm mt-1">Gerencie os parâmetros globais de funcionamento do CGStock.</p>

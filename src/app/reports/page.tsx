@@ -64,7 +64,7 @@ export default async function ReportsHubPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {group.items.map((item) => (
                 <Link key={item.name} href={item.href}>
-                  <Card className="hover:shadow-md transition-shadow cursor-pointer h-full border-border hover:border-emerald-300">
+                  <Card className="hover:shadow-sm  cursor-pointer h-full border-border hover:border-emerald-300">
                     <CardHeader className="pb-2">
                       <CardTitle className="text-lg flex items-center gap-2 text-gray-800">
                         <item.icon className="h-5 w-5 text-emerald-600" />

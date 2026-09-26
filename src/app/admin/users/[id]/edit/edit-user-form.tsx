@@ -42,7 +42,7 @@ export function EditUserForm({ user, roles, worksites }: { user: User, roles: { 
           defaultValue={user.name}
           placeholder="Ex: Carlos Silva" 
           required 
-          className="bg-muted/50 focus-visible:ring-primary border-border/50"
+          className="bg-muted/50 focus-visible:ring-primary border-border"
         />
       </div>
 
@@ -55,7 +55,7 @@ export function EditUserForm({ user, roles, worksites }: { user: User, roles: { 
           defaultValue={user.email}
           placeholder="carlos@estoka.com" 
           required 
-          className="bg-muted/50 focus-visible:ring-primary border-border/50"
+          className="bg-muted/50 focus-visible:ring-primary border-border"
         />
       </div>
 
@@ -67,13 +67,13 @@ export function EditUserForm({ user, roles, worksites }: { user: User, roles: { 
           type="password" 
           placeholder="Deixe em branco para manter a atual" 
           minLength={6}
-          className="bg-muted/50 focus-visible:ring-primary border-border/50"
+          className="bg-muted/50 focus-visible:ring-primary border-border"
         />
       </div>
 
       <div className="space-y-3">
         <Label>Perfis de Acesso</Label>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-muted/30 p-4 rounded-xl border border-border/50">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-muted/30 p-4 rounded-md border border-border">
           {roles.map(role => (
             <label key={role.id} className="flex items-center gap-3 cursor-pointer group">
               <div className="relative flex items-center">
@@ -82,13 +82,13 @@ export function EditUserForm({ user, roles, worksites }: { user: User, roles: { 
                   name="roleIds" 
                   value={role.id}
                   defaultChecked={userRoleIds.includes(role.id)}
-                  className="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-primary/50 checked:border-primary checked:bg-primary transition-all"
+                  className="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-primary/50 checked:border-primary checked:bg-primary "
                 />
                 <svg className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-3.5 w-3.5 text-primary-foreground opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
+              <span className="text-sm font-medium text-foreground group-hover:text-primary ">
                 {role.name}
               </span>
             </label>
@@ -98,7 +98,7 @@ export function EditUserForm({ user, roles, worksites }: { user: User, roles: { 
 
       <div className="space-y-3">
         <Label>Obras Autorizadas</Label>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-muted/30 p-4 rounded-xl border border-border/50">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-muted/30 p-4 rounded-md border border-border">
           {worksites.map(ws => (
             <label key={ws.id} className="flex items-center gap-3 cursor-pointer group">
               <div className="relative flex items-center">
@@ -107,13 +107,13 @@ export function EditUserForm({ user, roles, worksites }: { user: User, roles: { 
                   name="worksiteIds" 
                   value={ws.id}
                   defaultChecked={userWorksiteIds.includes(ws.id)}
-                  className="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-emerald-500/50 checked:border-emerald-600 checked:bg-emerald-600 transition-all"
+                  className="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-emerald-500/50 checked:border-emerald-600 checked:bg-emerald-600 "
                 />
                 <svg className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-3.5 w-3.5 text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span className="text-sm font-medium text-foreground group-hover:text-emerald-700 transition-colors">
+              <span className="text-sm font-medium text-foreground group-hover:text-emerald-700 ">
                 {ws.name}
               </span>
             </label>
@@ -123,7 +123,7 @@ export function EditUserForm({ user, roles, worksites }: { user: User, roles: { 
 
       <div className="space-y-3">
         <Label>Status do QR Code (Entrega Rápida)</Label>
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-muted/30 p-4 rounded-xl border border-border/50">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-muted/30 p-4 rounded-md border border-border">
           <div className="flex items-center gap-4">
             <div className={`px-3 py-1 rounded-full text-xs font-semibold ${user.qrToken && user.qrStatus === 'ACTIVE' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
               {user.qrToken && user.qrStatus === 'ACTIVE' ? 'ATIVO' : 'REVOGADO / INEXISTENTE'}
@@ -140,7 +140,7 @@ export function EditUserForm({ user, roles, worksites }: { user: User, roles: { 
         </div>
       </div>
 
-      <Button type="submit" disabled={isPending} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-md transition-all active:scale-95">
+      <Button type="submit" disabled={isPending} className="w-full bg-primary hover:bg-muted/50 text-primary-foreground shadow-sm  active:scale-95">
         {isPending ? (
           <>
             <Loader2 className="h-4 w-4 mr-2 animate-spin" />

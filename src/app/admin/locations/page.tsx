@@ -24,7 +24,7 @@ export default async function LocationsPage() {
         </Button>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 bg-card/95 backdrop-blur-xl p-4 rounded-2xl border border-border/40 shadow-sm">
+      <div className="flex flex-col sm:flex-row gap-4 bg-card  p-4 rounded-md border border-border shadow-sm">
         <div className="relative flex-1">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input placeholder="Buscar localização por código ou nome..." className="pl-9" />
@@ -33,9 +33,9 @@ export default async function LocationsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {locations.map(location => (
-          <Card key={location.id} className="hover:border-blue-300 transition-colors cursor-pointer group">
+          <Card key={location.id} className="hover:border-blue-300  cursor-pointer group">
             <CardContent className="p-5 flex flex-col items-center text-center">
-              <div className="h-12 w-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+              <div className="h-12 w-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white ">
                 <MapPin className="h-6 w-6" />
               </div>
               <h3 className="font-bold text-lg mb-1">{location.code}</h3>

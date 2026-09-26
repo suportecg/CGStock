@@ -8,8 +8,8 @@
   --popover: #ffffff;
   --popover-foreground: #0f172a;
   
-  /* Primary: Indigo 600 */
-  --primary: #4f46e5;
+  /* Primary: Slate 800 */
+  --primary: #1e293b;
   --primary-foreground: #ffffff;
   
   /* Secondary: Slate 100 */
@@ -20,22 +20,22 @@
   --muted: #f1f5f9;
   --muted-foreground: #64748b; /* Slate 500 */
   
-  /* Accent: Indigo 50 */
-  --accent: #eef2ff;
-  --accent-foreground: #4338ca; /* Indigo 700 */
+  /* Accent: Slate 100 */
+  --accent: #f1f5f9;
+  --accent-foreground: #0f172a; /* Slate 900 */
   
-  /* Destructive: Rose 600 */
-  --destructive: #e11d48;
+  /* Destructive: Red 600 */
+  --destructive: #dc2626;
   --destructive-foreground: #ffffff;
   
   /* Success: Emerald 600 */
-  --success: #10b981;
+  --success: #059669;
   --success-foreground: #ffffff;
   
   --border: #e2e8f0; /* Slate 200 */
   --input: #e2e8f0;
-  --ring: #4f46e5; /* Indigo 600 */
-  --radius: 0.75rem; /* Larger modern radius */
+  --ring: #1e293b; /* Slate 800 */
+  --radius: 0.375rem; /* Standard md radius */
 }
 
 .dark {

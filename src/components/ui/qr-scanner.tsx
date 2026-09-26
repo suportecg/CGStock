@@ -67,10 +67,10 @@ export function QRScanner({ onScanSuccess, onScanFailure, onClose, title = "Esca
   }, [onScanSuccess, onScanFailure, isScanning]);
 
   return (
-    <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-card w-full max-w-md rounded-2xl shadow-xl overflow-hidden border border-border/50 flex flex-col">
+    <div className="fixed inset-0 z-50 bg-background/80  flex items-center justify-center p-4">
+      <div className="bg-card w-full max-w-md rounded-md shadow-sm overflow-hidden border border-border flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-border/50">
+        <div className="flex items-center justify-between p-4 border-b border-border">
           <div className="flex items-center gap-2 text-foreground font-semibold">
             <Camera className="w-5 h-5 text-primary" />
             {title}

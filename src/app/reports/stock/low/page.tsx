@@ -36,7 +36,7 @@ export default async function LowStockReportPage() {
         </div>
       </div>
 
-      <div className="bg-card/95 backdrop-blur-xl rounded-2xl border border-border/40 shadow-xl shadow-indigo-500/5 overflow-hidden transition-all duration-200">
+      <div className="bg-card  rounded-md border border-border shadow-sm  overflow-hidden  ">
         {lowStocks.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground">
             Nenhum produto em baixo estoque no momento.
@@ -47,7 +47,7 @@ export default async function LowStockReportPage() {
               <TableHeader className="bg-muted">
                 <TableRow>
                   <TableHead>Produto</TableHead>
-                  <TableHead>Código</TableHead>
+                  <TableHead>Cód. Insumo</TableHead>
                   <TableHead>Almoxarifado</TableHead>
                   <TableHead>Localização</TableHead>
                   <TableHead className="text-right">Qtd Atual</TableHead>

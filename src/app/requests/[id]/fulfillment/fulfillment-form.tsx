@@ -16,7 +16,7 @@ export default function FulfillmentForm({ request, userId }: any) {
 
   if (!hasPendingItems || request.status === 'FULFILLED') {
     return (
-      <div className="flex flex-col items-center justify-center p-12 text-center bg-card rounded-xl border mt-8 shadow-sm">
+      <div className="flex flex-col items-center justify-center p-12 text-center bg-card rounded-md border mt-8 shadow-sm">
         <CheckCircle className="h-16 w-16 text-emerald-500 mb-4" />
         <h2 className="text-2xl font-bold">Requisição Totalmente Atendida</h2>
         <p className="text-muted-foreground mt-2 mb-6">Todos os itens desta requisição já foram entregues.</p>

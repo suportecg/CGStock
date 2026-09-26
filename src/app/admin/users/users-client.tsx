@@ -41,7 +41,7 @@ export function UsersClient({ users }: { users: any[] }) {
         </div>
         <div className="flex gap-2">
           <Link href={printUrl}>
-            <Button variant="outline" className="flex items-center gap-2 bg-background hover:bg-muted shadow-sm transition-all active:scale-95">
+            <Button variant="outline" className="flex items-center gap-2 bg-background hover:bg-muted shadow-sm  active:scale-95">
               <Printer className="h-4 w-4" />
               <span className="hidden sm:inline">
                 Imprimir Crachás {selectedIds.length > 0 ? `(${selectedIds.length})` : '(Todos)'}
@@ -49,7 +49,7 @@ export function UsersClient({ users }: { users: any[] }) {
             </Button>
           </Link>
           <Link href="/admin/users/new">
-            <Button className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground shadow-md transition-all active:scale-95">
+            <Button className="flex items-center gap-2 bg-primary hover:bg-muted/50 text-primary-foreground shadow-sm  active:scale-95">
               <UserPlus className="h-4 w-4" />
               Novo Usuário
             </Button>
@@ -57,23 +57,23 @@ export function UsersClient({ users }: { users: any[] }) {
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 bg-card/95 backdrop-blur-xl p-4 rounded-2xl border border-border/40 shadow-sm">
+      <div className="flex flex-col sm:flex-row gap-4 bg-card  p-4 rounded-md border border-border shadow-sm">
         <form className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-3 h-4 w-4 text-primary/60" />
-          <Input name="q" placeholder="Buscar por nome ou e-mail..." className="pl-10 rounded-full border-border/50 bg-muted/50 focus-visible:ring-primary transition-all focus:bg-background" />
+          <Input name="q" placeholder="Buscar por nome ou e-mail..." className="pl-10 rounded-full border-border bg-muted/50 focus-visible:ring-primary  focus:bg-background" />
         </form>
       </div>
 
-      <div className="bg-card/95 backdrop-blur-xl rounded-2xl border border-border/40 shadow-xl shadow-indigo-500/5 overflow-hidden transition-all duration-200">
+      <div className="bg-card  rounded-md border border-border shadow-sm  overflow-hidden  ">
         {/* Mobile View: Cards */}
         <div className="md:hidden divide-y divide-border/50">
           {users.map((user) => (
-            <div key={user.id} className="p-4 space-y-4 hover:bg-muted/30 transition-colors">
+            <div key={user.id} className="p-4 space-y-4 hover:bg-muted/30 ">
               <div className="flex justify-between items-start gap-2">
                 <div className="flex items-center gap-3">
                   <input 
                     type="checkbox" 
-                    className="h-5 w-5 rounded-md border-border/50 bg-background text-primary focus:ring-primary focus:ring-offset-1 cursor-pointer transition-all accent-indigo-600 shrink-0 shadow-sm"
+                    className="h-5 w-5 rounded-md border-border bg-background text-primary focus:ring-primary focus:ring-offset-1 cursor-pointer  accent-primary shrink-0 shadow-sm"
                     checked={selectedIds.includes(user.id)}
                     onChange={(e) => handleSelectUser(user.id, e.target.checked)}
                   />
@@ -98,7 +98,7 @@ export function UsersClient({ users }: { users: any[] }) {
                 ))}
               </div>
 
-              <div className="flex items-center justify-between pt-2 border-t border-border/50">
+              <div className="flex items-center justify-between pt-2 border-t border-border">
                 <div className="text-xs text-muted-foreground">
                   Desde {new Date(user.createdAt).toLocaleDateString('pt-BR')}
                 </div>
@@ -116,7 +116,7 @@ export function UsersClient({ users }: { users: any[] }) {
               <TableHead className="w-[50px]">
                 <input 
                   type="checkbox" 
-                  className="h-4 w-4 rounded-sm border-border bg-background text-primary focus:ring-primary cursor-pointer transition-all accent-indigo-600 shadow-sm"
+                  className="h-4 w-4 rounded-sm border-border bg-background text-primary focus:ring-primary cursor-pointer  accent-primary shadow-sm"
                   checked={users.length > 0 && selectedIds.length === users.length}
                   onChange={handleSelectAll}
                 />
@@ -135,7 +135,7 @@ export function UsersClient({ users }: { users: any[] }) {
                 <TableCell>
                   <input 
                     type="checkbox" 
-                    className="h-4 w-4 rounded-sm border-border bg-background text-primary focus:ring-primary cursor-pointer transition-all accent-indigo-600 shadow-sm"
+                    className="h-4 w-4 rounded-sm border-border bg-background text-primary focus:ring-primary cursor-pointer  accent-primary shadow-sm"
                     checked={selectedIds.includes(user.id)}
                     onChange={(e) => handleSelectUser(user.id, e.target.checked)}
                   />

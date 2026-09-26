@@ -13,7 +13,7 @@ export function QRCodeBadge({ userId, userName, qrToken, roleName, className = '
   const qrValue = qrToken || userId;
 
   return (
-    <div className={`flex flex-col items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-xl bg-white w-48 h-64 ${className}`}>
+    <div className={`flex flex-col items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-md bg-white w-48 h-64 ${className}`}>
       <div className="mb-4 text-center">
         <h3 className="font-bold text-lg leading-tight text-slate-800 line-clamp-2">{userName}</h3>
         {roleName && <p className="text-sm text-slate-500 mt-1">{roleName}</p>}

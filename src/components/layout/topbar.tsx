@@ -59,7 +59,7 @@ export function Topbar({ user }: { user?: { name: string; email: string; roles: 
   const titleFormatted = mappedTitle.charAt(0).toUpperCase() + mappedTitle.slice(1)
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-border/50 bg-background/80 backdrop-blur-xl px-6 shadow-sm shadow-black/5">
+    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-border bg-background/80  px-6 shadow-sm shadow-black/5">
       <div className="flex items-center gap-4">
         <button 
           className="lg:hidden p-2 text-muted-foreground hover:bg-accent rounded-md"
@@ -68,7 +68,7 @@ export function Topbar({ user }: { user?: { name: string; email: string; roles: 
           <Menu className="h-5 w-5" />
         </button>
         {/* O botão de voltar agora fica ao lado dos títulos nas páginas */}
-        <h1 className="text-xl font-bold tracking-tight text-foreground bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+        <h1 className="text-xl font-bold tracking-tight text-foreground    bg-clip-text text-transparent">
           {titleFormatted}
         </h1>
       </div>
@@ -89,7 +89,7 @@ export function Topbar({ user }: { user?: { name: string; email: string; roles: 
             type="search" 
             name="q"
             placeholder="Busca global..." 
-            className="h-9 w-64 rounded-full border border-border/50 bg-muted/50 pl-9 pr-4 text-sm transition-all focus:w-72 focus:border-primary focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="h-9 w-64 rounded-full border border-border bg-muted/50 pl-9 pr-4 text-sm  focus:w-72 focus:border-primary focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20"
           />
         </form>
         <ThemeToggle />
@@ -98,7 +98,7 @@ export function Topbar({ user }: { user?: { name: string; email: string; roles: 
           <span className="absolute right-1.5 top-1.5 flex h-2 w-2 rounded-full bg-red-500"></span>
         </Link>
         {user && (
-          <div className="flex items-center gap-3 ml-2 border-l border-border/50 pl-4">
+          <div className="flex items-center gap-3 ml-2 border-l border-border pl-4">
             <div className="text-right hidden sm:block">
               <p className="text-sm font-bold text-foreground leading-none">{user.name}</p>
               <p className="text-xs text-muted-foreground mt-1 tracking-wide uppercase">{user.roles.join(', ')}</p>
@@ -120,10 +120,10 @@ export function Topbar({ user }: { user?: { name: string; email: string; roles: 
       {isMobileMenuOpen && typeof window !== 'undefined' && createPortal(
         <div className="fixed inset-0 z-[100] flex lg:hidden">
           <div 
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" 
+            className="fixed inset-0 bg-black/60  transition-opacity" 
             onClick={() => setIsMobileMenuOpen(false)}
           ></div>
-          <div className="relative flex w-[280px] max-w-[80vw] flex-1 flex-col bg-background shadow-2xl animate-in slide-in-from-left duration-200">
+          <div className="relative flex w-[280px] max-w-[80vw] flex-1 flex-col bg-background shadow-sm  slide-in- ">
             <Sidebar user={user} />
           </div>
         </div>,

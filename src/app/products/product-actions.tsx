@@ -35,14 +35,14 @@ export function ProductActions({ productId, productCode, productName }: { produc
   }
 
   const qrModalContent = showQrModal ? (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-2xl border border-gray-200 zoom-in-95 animate-in duration-200 text-black print-exact">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60    ">
+      <div className="w-full max-w-sm rounded-md bg-white p-8 shadow-sm border border-gray-200    text-black print-exact">
         <div className="text-center mb-6">
           <h2 className="text-lg font-black tracking-tight">{productCode}</h2>
           <p className="text-sm text-gray-500 line-clamp-2 mt-1">{productName}</p>
         </div>
         
-        <div className="flex justify-center bg-white p-4 rounded-xl border-2 border-dashed border-gray-200">
+        <div className="flex justify-center bg-white p-4 rounded-md border-2 border-dashed border-gray-200">
           <QRCodeSVG 
             value={productCode} 
             size={200}
@@ -56,13 +56,13 @@ export function ProductActions({ productId, productCode, productName }: { produc
           <Button 
             variant="outline" 
             onClick={() => setShowQrModal(false)}
-            className="rounded-xl flex-1 text-black border-gray-300 hover:bg-gray-100"
+            className="rounded-md flex-1 text-black border-gray-300 hover:bg-gray-100"
           >
             Fechar
           </Button>
           <Button 
             onClick={handlePrint}
-            className="rounded-xl flex-1 bg-indigo-600 hover:bg-indigo-700 text-white shadow-md flex items-center justify-center gap-2"
+            className="rounded-md flex-1 bg-primary hover:bg-primary text-white shadow-sm flex items-center justify-center gap-2"
           >
             <Printer className="h-4 w-4" />
             Imprimir
@@ -84,9 +84,9 @@ export function ProductActions({ productId, productCode, productName }: { produc
       </Button>
 
       {isOpen && (
-        <div className="absolute right-0 top-10 z-50 w-44 rounded-xl border border-border/50 bg-card/95 backdrop-blur-md p-1.5 shadow-lg animate-in fade-in zoom-in-95 duration-200">
+        <div className="absolute right-0 top-10 z-50 w-44 rounded-md border border-border bg-card  p-1.5 shadow-sm    ">
           <Link href={`/products/${productId}/edit`}>
-            <button className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-foreground hover:bg-muted transition-colors">
+            <button className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-foreground hover:bg-muted ">
               <Pencil className="h-4 w-4 text-muted-foreground" />
               Editar
             </button>
@@ -96,9 +96,9 @@ export function ProductActions({ productId, productCode, productName }: { produc
               setIsOpen(false)
               setShowQrModal(true)
             }}
-            className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-foreground hover:bg-muted transition-colors mt-1"
+            className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-foreground hover:bg-muted  mt-1"
           >
-            <QrCode className="h-4 w-4 text-indigo-500" />
+            <QrCode className="h-4 w-4 text-primary" />
             Etiqueta (QR Code)
           </button>
           <button 
@@ -109,7 +109,7 @@ export function ProductActions({ productId, productCode, productName }: { produc
                 window.location.reload()
               }
             }}
-            className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50 transition-colors mt-1"
+            className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50  mt-1"
           >
             <Trash2 className="h-4 w-4 text-red-600" />
             Excluir

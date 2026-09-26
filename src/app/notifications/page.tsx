@@ -30,7 +30,7 @@ export default async function NotificationsPage() {
           <BackButton />
           <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Bell className="h-6 w-6 text-indigo-600" />
+            <Bell className="h-6 w-6 text-primary" />
             Notificações
           </h1>
           <p className="text-muted-foreground text-sm mt-1">Seus alertas e mensagens do sistema.</p>
@@ -40,17 +40,17 @@ export default async function NotificationsPage() {
 
       <div className="space-y-4">
         {notifications.length === 0 ? (
-          <div className="p-8 bg-muted rounded-xl text-center text-muted-foreground border border-gray-100">
+          <div className="p-8 bg-muted rounded-md text-center text-muted-foreground border border-gray-100">
             Você não possui notificações.
           </div>
         ) : (
           notifications.map((notif) => (
             <div 
               key={notif.id} 
-              className={`p-4 rounded-lg border ${!notif.readAt ? 'bg-indigo-50 border-indigo-100' : 'bg-card border-border'}`}
+              className={`p-4 rounded-lg border ${!notif.readAt ? 'bg-primary/5 border-primary/10' : 'bg-card border-border'}`}
             >
               <div className="flex justify-between items-start mb-1">
-                <h3 className={`font-semibold ${!notif.readAt ? 'text-indigo-900' : 'text-gray-800'}`}>
+                <h3 className={`font-semibold ${!notif.readAt ? 'text-primary-foreground' : 'text-gray-800'}`}>
                   {notif.title}
                 </h3>
                 <span className="text-xs text-muted-foreground whitespace-nowrap ml-4">

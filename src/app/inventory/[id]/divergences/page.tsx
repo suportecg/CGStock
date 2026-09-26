@@ -72,7 +72,7 @@ export default async function DivergencesPage({ params }: { params: Promise<{ id
         </Card>
       </div>
 
-      <div className="bg-card/95 backdrop-blur-xl rounded-2xl border border-border/40 shadow-xl shadow-indigo-500/5 overflow-hidden transition-all duration-200">
+      <div className="bg-card  rounded-md border border-border shadow-sm  overflow-hidden  ">
         <Table>
           <TableHeader>
             <TableRow>

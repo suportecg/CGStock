@@ -40,7 +40,7 @@ export default async function IssuesPage({ searchParams }: { searchParams: Promi
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 bg-card/95 backdrop-blur-xl p-4 rounded-2xl border border-border/40 shadow-sm">
+      <div className="flex flex-col sm:flex-row gap-4 bg-card  p-4 rounded-md border border-border shadow-sm">
         <SearchInput placeholder="Buscar por número da requisição ou solicitante..." />
         <div className="flex gap-2">
           <Button variant="outline" className="flex items-center gap-2">
@@ -50,7 +50,7 @@ export default async function IssuesPage({ searchParams }: { searchParams: Promi
         </div>
       </div>
 
-      <div className="bg-card/95 backdrop-blur-xl rounded-2xl border border-border/40 shadow-xl shadow-indigo-500/5 overflow-hidden transition-all duration-200">
+      <div className="bg-card  rounded-md border border-border shadow-sm  overflow-hidden  ">
         {/* Mobile View: Cards */}
         <div className="md:hidden divide-y divide-border">
           {issues.length === 0 ? (
@@ -62,7 +62,7 @@ export default async function IssuesPage({ searchParams }: { searchParams: Promi
               const totalDelivered = issue.items.reduce((sum, item) => sum + item.deliveredQuantity, 0)
               
               return (
-                <div key={issue.id} className="p-4 space-y-3 bg-card hover:bg-muted/30 transition-colors">
+                <div key={issue.id} className="p-4 space-y-3 bg-card hover:bg-muted/30 ">
                   <div className="flex justify-between items-start gap-2">
                     <div className="flex flex-col">
                       <span className="text-xs font-semibold text-muted-foreground uppercase">
@@ -92,7 +92,7 @@ export default async function IssuesPage({ searchParams }: { searchParams: Promi
                     </div>
                   </div>
                   
-                  <div className="flex items-center justify-between pt-2 border-t border-border/50">
+                  <div className="flex items-center justify-between pt-2 border-t border-border">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <span className="font-medium text-emerald-600">-{totalDelivered}</span> itens
                     </div>

@@ -66,8 +66,8 @@ export default function InventoryForm({ warehouses, users, userId }: any) {
                 locations.length > 0 ? (
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-muted p-4 rounded-lg border">
                     {locations.map((loc: any) => (
-                      <label key={loc.id} className="flex items-center gap-2 bg-card p-3 rounded-md border cursor-pointer hover:bg-indigo-50">
-                        <input type="checkbox" name={`loc_${loc.id}`} defaultChecked className="rounded text-indigo-600 focus:ring-indigo-500 h-4 w-4" />
+                      <label key={loc.id} className="flex items-center gap-2 bg-card p-3 rounded-md border cursor-pointer hover:bg-primary/5">
+                        <input type="checkbox" name={`loc_${loc.id}`} defaultChecked className="rounded text-primary focus:ring-primary h-4 w-4" />
                         <span className="font-medium text-sm">{loc.code}</span>
                       </label>
                     ))}
@@ -92,8 +92,8 @@ export default function InventoryForm({ warehouses, users, userId }: any) {
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 bg-muted p-4 rounded-lg border">
                 {users.map((u: any) => (
-                  <label key={u.id} className="flex items-center gap-2 bg-card p-3 rounded-md border cursor-pointer hover:bg-indigo-50">
-                    <input type="checkbox" name={`op_${u.id}`} className="rounded text-indigo-600 focus:ring-indigo-500 h-4 w-4" />
+                  <label key={u.id} className="flex items-center gap-2 bg-card p-3 rounded-md border cursor-pointer hover:bg-primary/5">
+                    <input type="checkbox" name={`op_${u.id}`} className="rounded text-primary focus:ring-primary h-4 w-4" />
                     <div>
                       <span className="font-medium text-sm block">{u.name}</span>
                       <span className="text-xs text-muted-foreground">{u.roles.map((r: any) => r.name).join(', ')}</span>
@@ -108,7 +108,7 @@ export default function InventoryForm({ warehouses, users, userId }: any) {
                 <Button type="button" variant="outline">Cancelar</Button>
               </Link>
               
-              <Button type="submit" disabled={!selectedWarehouseId || locations.length === 0} className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2">
+              <Button type="submit" disabled={!selectedWarehouseId || locations.length === 0} className="bg-primary hover:bg-primary text-white flex items-center gap-2">
                 <Save className="h-4 w-4" />
                 Criar e Iniciar Inventário
               </Button>

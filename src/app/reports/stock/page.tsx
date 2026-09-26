@@ -43,7 +43,7 @@ export default async function StockReportPage({ searchParams }: { searchParams: 
         </div>
       </div>
 
-      <div className="bg-card/95 backdrop-blur-xl rounded-2xl border border-border/40 shadow-xl shadow-indigo-500/5 overflow-hidden transition-all duration-200">
+      <div className="bg-card  rounded-md border border-border shadow-sm  overflow-hidden  ">
         {stocks.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground">
             Nenhum registro de estoque encontrado.
@@ -54,7 +54,7 @@ export default async function StockReportPage({ searchParams }: { searchParams: 
               <TableHeader className="bg-muted">
                 <TableRow>
                   <TableHead>Produto</TableHead>
-                  <TableHead>Código</TableHead>
+                  <TableHead>Cód. Insumo</TableHead>
                   <TableHead>Categoria</TableHead>
                   <TableHead>Almoxarifado</TableHead>
                   <TableHead>Localização</TableHead>

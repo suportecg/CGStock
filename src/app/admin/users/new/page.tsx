@@ -21,7 +21,7 @@ export default async function NewUserPage() {
         </div>
       </div>
 
-      <Card className="rounded-2xl border-border/50 shadow-sm bg-card/50 backdrop-blur-sm">
+      <Card className="rounded-md border-border shadow-sm bg-card ">
         <CardHeader>
           <CardTitle>Dados do Usuário</CardTitle>
           <CardDescription>

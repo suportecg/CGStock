@@ -75,9 +75,12 @@ export async function getProductStockForQuickIssue(worksiteId: string, productCo
   }
 
   // Buscar o produto primeiro globalmente
-  const product = await db.product.findUnique({
-    where: { code: productCode },
-    include: { unit: true }
+  const product = await db.product.findFirst({
+    where: { 
+      code: { contains: productCode, mode: 'insensitive' }
+    },
+    include: { unit: true },
+    orderBy: { code: 'asc' }
   })
   
   if (!product) return { error: "Produto não encontrado no catálogo." }

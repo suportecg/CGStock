@@ -35,18 +35,18 @@ export default async function CollectorHomePage() {
 
   return (
     <div className="min-h-screen bg-accent p-4 font-sans max-w-lg mx-auto">
-      <div className="bg-indigo-600 text-white p-4 rounded-xl shadow-lg mb-6 flex items-center gap-3">
+      <div className="bg-primary text-white p-4 rounded-md shadow-sm mb-6 flex items-center gap-3">
         <Smartphone className="h-8 w-8" />
         <div>
           <h1 className="text-xl font-bold">Coletor Web</h1>
-          <p className="text-indigo-200 text-sm">Bem-vindo(a) ao Coletor</p>
+          <p className="text-primary-foreground/80 text-sm">Bem-vindo(a) ao Coletor</p>
         </div>
       </div>
 
       <h2 className="text-muted-foreground font-semibold mb-4 ml-1">Inventários Disponíveis</h2>
 
       {activeInventories.length === 0 ? (
-        <Card className="border-none shadow-sm rounded-xl">
+        <Card className="border-none shadow-sm rounded-md">
           <CardContent className="p-8 text-center text-muted-foreground">
             Nenhum inventário ativo atribuído a você no momento.
           </CardContent>
@@ -54,7 +54,7 @@ export default async function CollectorHomePage() {
       ) : (
         <div className="space-y-4">
           {activeInventories.map(inv => (
-            <Card key={inv.id} className="border-none shadow-sm rounded-xl overflow-hidden">
+            <Card key={inv.id} className="border-none shadow-sm rounded-md overflow-hidden">
               <div className="bg-card p-4 border-b">
                 <h3 className="font-bold text-lg text-foreground">{inv.name}</h3>
                 <p className="text-sm text-muted-foreground">{inv.code}</p>
@@ -67,7 +67,7 @@ export default async function CollectorHomePage() {
                   <div className="space-y-1 mt-1">
                     {inv.locations.map(l => (
                       <Link key={l.id} href={`/collector/${inv.id}/${l.locationId}`}>
-                        <div className="flex items-center justify-between p-3 bg-card rounded-lg border border-gray-100 hover:border-indigo-300 transition-colors cursor-pointer">
+                        <div className="flex items-center justify-between p-3 bg-card rounded-lg border border-gray-100 hover:border-primary/30  cursor-pointer">
                           <span className="font-medium">{l.location.code}</span>
                           <ChevronRight className="h-5 w-5 text-muted-foreground" />
                         </div>

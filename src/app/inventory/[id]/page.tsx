@@ -66,7 +66,7 @@ export default async function InventoryDashboardPage({ params }: { params: Promi
         <div className="flex gap-2">
           {inv.status === 'IN_PROGRESS' && (
             <form action={finishAction}>
-              <Button className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white">
+              <Button className="flex items-center gap-2 bg-primary hover:bg-primary text-white">
                 <StopCircle className="h-4 w-4" />
                 Encerrar Coletas
               </Button>
@@ -74,7 +74,7 @@ export default async function InventoryDashboardPage({ params }: { params: Promi
           )}
           {['CONFERENCE', 'COMPLETED'].includes(inv.status) && (
             <Link href={`/inventory/${inv.id}/divergences`}>
-              <Button variant="outline" className="flex items-center gap-2 text-indigo-600 border-indigo-200 hover:bg-indigo-50">
+              <Button variant="outline" className="flex items-center gap-2 text-primary border-primary/20 hover:bg-primary/5">
                 <FileText className="h-4 w-4" />
                 Analisar Divergências
               </Button>
@@ -138,7 +138,7 @@ export default async function InventoryDashboardPage({ params }: { params: Promi
                 {inv.collections.map(col => (
                   <div key={col.id} className="flex justify-between items-center border p-4 rounded-md hover:bg-muted">
                     <div className="flex items-center gap-4">
-                      <div className="p-2 bg-indigo-50 rounded-full text-indigo-600">
+                      <div className="p-2 bg-primary/5 rounded-full text-primary">
                         <Smartphone className="h-5 w-5" />
                       </div>
                       <div>

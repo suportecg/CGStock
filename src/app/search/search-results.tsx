@@ -53,7 +53,7 @@ export async function SearchResults({ query }: { query: string }) {
 
   if (totalResults === 0) {
     return (
-      <div className="flex flex-col items-center justify-center p-12 bg-card rounded-xl border border-border shadow-sm">
+      <div className="flex flex-col items-center justify-center p-12 bg-card rounded-md border border-border shadow-sm">
         <div className="h-16 w-16 bg-muted rounded-full flex items-center justify-center text-muted-foreground mb-4">
           <Search className="h-8 w-8" />
         </div>
@@ -70,13 +70,13 @@ export async function SearchResults({ query }: { query: string }) {
       {products.length > 0 && (
         <div className="space-y-4">
           <h2 className="text-xl font-bold flex items-center gap-2">
-            <Package className="h-5 w-5 text-indigo-600" /> Produtos
+            <Package className="h-5 w-5 text-primary" /> Produtos
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {products.map(product => (
-              <Link key={product.id} href={`/products/${product.id}`} className="group p-4 bg-card rounded-xl border border-border shadow-sm hover:border-indigo-500/50 hover:shadow-md transition-all flex justify-between items-center">
+              <Link key={product.id} href={`/products/${product.id}`} className="group p-4 bg-card rounded-md border border-border shadow-sm hover:border-primary/50 hover:shadow-sm  flex justify-between items-center">
                 <div>
-                  <p className="font-bold text-foreground group-hover:text-indigo-600 transition-colors">{product.name}</p>
+                  <p className="font-bold text-foreground group-hover:text-primary ">{product.name}</p>
                   <p className="text-xs text-muted-foreground mt-1 font-mono">{product.code} • {product.category.name}</p>
                 </div>
                 <Badge variant={product.status === 'ACTIVE' ? 'default' : 'secondary'}>
@@ -95,9 +95,9 @@ export async function SearchResults({ query }: { query: string }) {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {requests.map(req => (
-              <Link key={req.id} href={`/requests/${req.id}`} className="group p-4 bg-card rounded-xl border border-border shadow-sm hover:border-emerald-500/50 hover:shadow-md transition-all flex justify-between items-center">
+              <Link key={req.id} href={`/requests/${req.id}`} className="group p-4 bg-card rounded-md border border-border shadow-sm hover:border-emerald-500/50 hover:shadow-sm  flex justify-between items-center">
                 <div>
-                  <p className="font-bold text-foreground group-hover:text-emerald-600 transition-colors">{req.requestNumber}</p>
+                  <p className="font-bold text-foreground group-hover:text-emerald-600 ">{req.requestNumber}</p>
                   <p className="text-xs text-muted-foreground mt-1">{new Date(req.createdAt).toLocaleDateString('pt-BR')}</p>
                 </div>
                 <Badge variant="outline">{req.status}</Badge>
@@ -114,9 +114,9 @@ export async function SearchResults({ query }: { query: string }) {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {movements.map(mov => (
-              <Link key={mov.id} href={`/movements/${mov.id}`} className="group p-4 bg-card rounded-xl border border-border shadow-sm hover:border-blue-500/50 hover:shadow-md transition-all flex justify-between items-center">
+              <Link key={mov.id} href={`/movements/${mov.id}`} className="group p-4 bg-card rounded-md border border-border shadow-sm hover:border-blue-500/50 hover:shadow-sm  flex justify-between items-center">
                 <div>
-                  <p className="font-bold text-foreground group-hover:text-blue-600 transition-colors">{mov.documentNumber || 'S/N'}</p>
+                  <p className="font-bold text-foreground group-hover:text-blue-600 ">{mov.documentNumber || 'S/N'}</p>
                   <p className="text-xs text-muted-foreground mt-1 truncate">{mov.product.name} • {mov.type}</p>
                 </div>
                 <div className="text-right">
@@ -135,7 +135,7 @@ export async function SearchResults({ query }: { query: string }) {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {locations.map(loc => (
-              <div key={loc.id} className="p-4 bg-card rounded-xl border border-border shadow-sm flex justify-between items-center">
+              <div key={loc.id} className="p-4 bg-card rounded-md border border-border shadow-sm flex justify-between items-center">
                 <div>
                   <p className="font-bold text-foreground">{loc.name}</p>
                   <p className="text-xs text-muted-foreground mt-1 font-mono">{loc.code} • {loc.warehouse.name}</p>

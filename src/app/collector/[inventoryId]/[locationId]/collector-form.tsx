@@ -68,7 +68,7 @@ export default function CollectorForm({
 
     const upperTerm = term.trim().toUpperCase()
     const found = products.find((p: any) => 
-      p.code.toUpperCase() === upperTerm || 
+      p.code.toUpperCase().includes(upperTerm) || 
       p.barcode?.toUpperCase() === upperTerm ||
       p.name.toUpperCase().includes(upperTerm)
     )
@@ -152,7 +152,7 @@ export default function CollectorForm({
   return (
     <div className="flex flex-col h-screen relative">
       {/* Header */}
-      <div className="bg-primary/95 backdrop-blur-md text-primary-foreground p-4 flex items-center justify-between shadow-md z-20">
+      <div className="bg-primary/95  text-primary-foreground p-4 flex items-center justify-between shadow-sm z-20">
         <div className="flex items-center gap-3">
           <BackButton />
           <div>
@@ -176,23 +176,23 @@ export default function CollectorForm({
           >
             <X className="h-8 w-8" />
           </Button>
-          <div className="w-full max-w-sm p-6 bg-card rounded-2xl shadow-2xl mx-4">
+          <div className="w-full max-w-sm p-6 bg-card rounded-md shadow-sm mx-4">
             <h3 className="text-xl font-bold text-center mb-4 text-foreground">Leitor de Cód. Barras</h3>
             
             {cameraError ? (
               <div className="text-center p-4">
-                <div className="bg-destructive/10 text-destructive p-4 rounded-xl mb-4">
+                <div className="bg-destructive/10 text-destructive p-4 rounded-md mb-4">
                   <p className="text-sm font-semibold">{cameraError}</p>
                 </div>
-                <Button variant="outline" onClick={() => setShowScanner(false)} className="w-full rounded-xl">
+                <Button variant="outline" onClick={() => setShowScanner(false)} className="w-full rounded-md">
                   Fechar
                 </Button>
               </div>
             ) : (
               <>
-                <div id="reader" className="w-full overflow-hidden rounded-xl bg-black border-2 border-primary/20 aspect-square flex items-center justify-center relative">
+                <div id="reader" className="w-full overflow-hidden rounded-md bg-black border-2 border-primary/20 aspect-square flex items-center justify-center relative">
                   {/* Overlay for aesthetic scanning */}
-                  <div className="absolute inset-0 border-2 border-primary/50 opacity-50 pointer-events-none rounded-xl m-4"></div>
+                  <div className="absolute inset-0 border-2 border-primary/50 opacity-50 pointer-events-none rounded-md m-4"></div>
                 </div>
                 <p className="text-center text-sm mt-6 text-muted-foreground font-medium">
                   Aponte a câmera para o código
@@ -221,11 +221,11 @@ export default function CollectorForm({
               value={searchInput}
               onChange={e => setSearchInput(e.target.value)}
               placeholder="Cód. Barras ou SKU..." 
-              className="pl-12 h-12 text-lg uppercase font-bold bg-muted/50 border-border/50 focus-visible:ring-primary rounded-xl transition-all"
+              className="pl-12 h-12 text-lg uppercase font-bold bg-muted/50 border-border focus-visible:ring-primary rounded-md "
               autoFocus
             />
           </div>
-          <Button type="submit" size="icon" className="h-12 w-12 bg-primary hover:bg-primary/90 rounded-xl shadow-md transition-transform active:scale-95">
+          <Button type="submit" size="icon" className="h-12 w-12 bg-primary hover:bg-muted/50 rounded-md shadow-sm transition-transform active:scale-95">
             <Plus className="h-6 w-6" />
           </Button>
         </form>
@@ -241,7 +241,7 @@ export default function CollectorForm({
         ) : (
           <div className="space-y-3 pb-24">
             {items.map((item) => (
-              <div key={item.productId} className="bg-card p-4 rounded-xl shadow-sm border border-border">
+              <div key={item.productId} className="bg-card p-4 rounded-md shadow-sm border border-border">
                 <div className="flex justify-between items-start mb-3">
                   <div>
                     <h3 className="font-bold text-foreground leading-tight">{item.code}</h3>
@@ -281,7 +281,7 @@ export default function CollectorForm({
                       type="button" 
                       variant="ghost" 
                       onClick={() => changeQuantity(item.productId, 1)}
-                      className="h-10 w-10 p-0 rounded-md bg-card shadow-sm text-primary hover:text-primary active:bg-primary/10 transition-colors"
+                      className="h-10 w-10 p-0 rounded-md bg-card shadow-sm text-primary hover:text-primary active:bg-primary/10 "
                     >
                       <Plus className="h-5 w-5" />
                     </Button>
@@ -299,7 +299,7 @@ export default function CollectorForm({
           type="button" 
           onClick={handleFinish}
           disabled={items.length === 0}
-          className="w-full h-14 text-lg font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl flex items-center justify-center gap-2"
+          className="w-full h-14 text-lg font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-md flex items-center justify-center gap-2"
         >
           <Send className="h-6 w-6" />
           Finalizar Coleta
