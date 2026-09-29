@@ -41,7 +41,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                 {product.status === 'ACTIVE' ? 'Ativo' : 'Inativo'}
               </Badge>
             </div>
-            <p className="text-muted-foreground">{product.code} {product.barcode ? `• Cód. Barras: ${product.barcode}` : ''}</p>
+            <p className="text-muted-foreground">Cód.Insumo: {product.code} {product.barcode ? `• Cód. Barras: ${product.barcode}` : ''}</p>
           </div>
         </div>
         <div className="flex gap-2">

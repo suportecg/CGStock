@@ -234,30 +234,35 @@ export default async function DashboardPage() {
         </Card>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4 rounded-md border-border shadow-sm">
-          <CardHeader>
-            <div className="flex justify-between items-center">
-              <div>
-                <CardTitle className="text-lg font-bold">Entradas vs Saídas</CardTitle>
-                <CardDescription className="mt-1">Fluxo de movimentações nos últimos dias de operação.</CardDescription>
+      <div className="grid gap-6 lg:grid-cols-7">
+        <Card className="lg:col-span-4 rounded-md border border-border shadow-sm bg-card flex flex-col min-w-0">
+          <div className="px-5 pt-5 pb-4 flex items-center justify-between border-b border-border/40">
+            <div className="flex items-center gap-6">
+              <h2 className="text-sm font-semibold text-foreground">Entradas vs Saídas</h2>
+              <div className="flex items-center gap-3 text-[11px] font-medium text-muted-foreground">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#5C3310]"></span> Entradas
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#C9832B]"></span> Saídas
+                </div>
               </div>
-              <Link href="/reports/movements" className="text-sm text-primary font-medium hover:underline flex items-center gap-1">
-                Ver relatório <ArrowRightLeft className="h-3 w-3" />
-              </Link>
             </div>
-          </CardHeader>
-          <CardContent className="pl-2 h-[300px]">
+            <Link href="/reports/movements" className="text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Ver relatório →
+            </Link>
+          </div>
+          <div className="px-2 pt-4 pb-4 h-[250px] min-h-[250px] w-full">
             <DashboardCharts data={chartData} />
-          </CardContent>
+          </div>
         </Card>
 
-        <Card className="col-span-3 rounded-md border-border shadow-sm">
+        <Card className="lg:col-span-3 rounded-md border-border shadow-sm flex flex-col min-w-0">
           <CardHeader>
             <CardTitle className="text-lg font-bold">Últimas Movimentações</CardTitle>
             <CardDescription className="mt-1">Entradas, saídas e ajustes recentes no sistema.</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-1">
             <div className="space-y-4">
               {recentMovements.length === 0 ? (
                 <div className="text-center py-6 text-sm text-muted-foreground bg-muted/30 rounded-md">

@@ -8,8 +8,10 @@ import { db } from "@/lib/db"
 import { updateProductAction } from "../../actions"
 import { BackButton } from "@/components/ui/back-button"
 import { notFound } from "next/navigation"
+import { requirePermissionPage } from "@/lib/permissions"
 
 export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
+  await requirePermissionPage('PRODUCT_UPDATE')
   const { id } = await params
   
   const product = await db.product.findUnique({

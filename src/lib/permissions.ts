@@ -3,7 +3,7 @@ import { db } from "./db"
 import { redirect } from "next/navigation"
 
 export type PermissionKey = 
-  | 'PRODUCT_VIEW' | 'PRODUCT_CREATE' | 'PRODUCT_UPDATE'
+  | 'PRODUCT_VIEW' | 'PRODUCT_CREATE' | 'PRODUCT_UPDATE' | 'PRODUCT_DELETE'
   | 'STOCK_VIEW' | 'STOCK_ENTRY' | 'STOCK_EXIT' | 'STOCK_ADJUST' | 'STOCK_TRANSFER'
   | 'REQUEST_CREATE' | 'REQUEST_APPROVE' | 'REQUEST_FULFILL'
   | 'INVENTORY_CREATE' | 'INVENTORY_COUNT' | 'INVENTORY_REVIEW' | 'INVENTORY_APPROVE'
@@ -51,6 +51,6 @@ export async function requirePermission(permissionKey: PermissionKey) {
 export async function requirePermissionPage(permissionKey: PermissionKey) {
   const isAuthorized = await hasPermission(permissionKey)
   if (!isAuthorized) {
-    redirect("/dashboard?error=unauthorized")
+    redirect("/unauthorized")
   }
 }

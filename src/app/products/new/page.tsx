@@ -8,8 +8,10 @@ import { db } from "@/lib/db"
 import { createProductAction } from "../actions"
 import { BarcodeInput } from "./barcode-input"
 import { BackButton } from "@/components/ui/back-button"
+import { requirePermissionPage } from "@/lib/permissions"
 
 export default async function NewProductPage() {
+  await requirePermissionPage('PRODUCT_CREATE')
   const categories = await db.productCategory.findMany({ where: { status: 'ACTIVE' } })
   const units = await db.productUnit.findMany({ where: { status: 'ACTIVE' } })
   const locations = await db.warehouseLocation.findMany({ where: { status: 'ACTIVE' }, include: { warehouse: true } })

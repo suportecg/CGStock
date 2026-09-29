@@ -17,13 +17,13 @@ export function AppShellClient({
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-muted font-sans">
-      <div className="hidden lg:block">
+    <div className="flex h-screen overflow-hidden bg-background font-sans">
+      <div className="hidden lg:block w-[260px] shrink-0 border-r border-[#5C3310]">
         <Sidebar user={user} />
       </div>
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         <Topbar user={user} />
-        <main className="flex-1 overflow-y-auto p-6">
+        <main className="flex-1 overflow-y-auto min-h-0 p-6">
           <div className="mx-auto max-w-7xl">
             {children}
           </div>

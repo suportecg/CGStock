@@ -59,16 +59,32 @@ export function EditUserForm({ user, roles, worksites }: { user: User, roles: { 
         />
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="password">Nova Senha (opcional)</Label>
-        <Input 
-          id="password" 
-          name="password" 
-          type="password" 
-          placeholder="Deixe em branco para manter a atual" 
-          minLength={6}
-          className="bg-muted/50 focus-visible:ring-primary border-border"
-        />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="password">Nova Senha (opcional)</Label>
+          <Input 
+            id="password" 
+            name="password" 
+            type="password" 
+            placeholder="Deixe em branco para manter a atual" 
+            minLength={6}
+            className="bg-muted/50 focus-visible:ring-primary border-border"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label>Tipo de Senha (Se alterada)</Label>
+          <div className="flex items-center gap-4 pt-2">
+            <label className="flex items-center gap-2 cursor-pointer text-sm">
+              <input type="radio" name="mustChangePassword" value="true" defaultChecked className="text-primary focus:ring-primary" />
+              <span>Temporária (Exige troca no login)</span>
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer text-sm">
+              <input type="radio" name="mustChangePassword" value="false" className="text-primary focus:ring-primary" />
+              <span>Fixa</span>
+            </label>
+          </div>
+        </div>
       </div>
 
       <div className="space-y-3">

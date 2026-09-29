@@ -9,11 +9,19 @@ import { ProductActions } from "./product-actions"
 import { DeleteAllButton } from "./delete-all-button"
 import { cn } from "@/lib/utils"
 
+import { requirePermissionPage, hasPermission } from "@/lib/permissions"
+
 export default async function ProductsPage({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
+  await requirePermissionPage('PRODUCT_VIEW')
+  const [hasCreate, hasUpdate, hasDelete] = await Promise.all([
+    hasPermission('PRODUCT_CREATE'),
+    hasPermission('PRODUCT_UPDATE'),
+    hasPermission('PRODUCT_DELETE')
+  ])
   const resolvedSearchParams = await searchParams
   const search = resolvedSearchParams.q as string
   const categoryId = resolvedSearchParams.category as string
@@ -81,7 +89,7 @@ export default async function ProductsPage({
         <form method="GET" className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto items-center">
           <div className="relative w-full sm:w-64">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input name="q" defaultValue={search || ""} placeholder="Buscar por código ou descrição..." className="pl-9 h-9 text-sm" />
+            <Input name="q" defaultValue={search || ""} placeholder="Buscar por Cód.Insumo ou descrição..." className="pl-9 h-9 text-sm" />
           </div>
           
           <select name="category" defaultValue={categoryId || ""} className="h-9 w-full sm:w-40 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-1 focus:ring-primary">
@@ -101,12 +109,14 @@ export default async function ProductsPage({
 
           <div className="h-6 w-px bg-border hidden sm:block mx-1"></div>
 
-          <Link href="/products/new">
-            <Button className="h-9 px-3 text-sm bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              Novo
-            </Button>
-          </Link>
+          {hasCreate && (
+            <Link href="/products/new">
+              <Button className="h-9 px-3 text-sm bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2">
+                <Plus className="h-4 w-4" />
+                Novo
+              </Button>
+            </Link>
+          )}
         </form>
       </div>
 
@@ -132,7 +142,7 @@ export default async function ProductsPage({
           <Table className="w-full text-sm">
             <TableHeader className="bg-muted/50">
               <TableRow className="border-b border-border">
-                <TableHead className="h-10 px-4 font-semibold text-muted-foreground w-[120px]">Código</TableHead>
+                <TableHead className="h-10 px-4 font-semibold text-muted-foreground w-[120px]">Cód.Insumo</TableHead>
                 <TableHead className="h-10 px-4 font-semibold text-muted-foreground">Produto</TableHead>
                 <TableHead className="h-10 px-4 font-semibold text-muted-foreground w-[150px]">Categoria</TableHead>
                 <TableHead className="h-10 px-4 font-semibold text-muted-foreground w-[80px] text-center">Unid.</TableHead>
@@ -188,7 +198,9 @@ export default async function ProductsPage({
                         <ProductActions 
                           productId={product.id} 
                           productCode={product.code} 
-                          productName={product.name} 
+                          productName={product.name}
+                          hasUpdate={hasUpdate}
+                          hasDelete={hasDelete}
                         />
                       </TableCell>
                     </TableRow>
@@ -200,7 +212,7 @@ export default async function ProductsPage({
         </div>
         
         {/* Footer / Pagination */}
-        <div className="flex items-center justify-between border-t border-border px-4 py-3 bg-muted/20 mt-auto">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-border px-4 py-3 bg-muted/20 mt-auto">
           <div className="text-sm text-muted-foreground">
             Total de <strong>{totalCount}</strong> produtos encontrados
           </div>

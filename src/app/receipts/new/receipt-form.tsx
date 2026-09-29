@@ -12,6 +12,9 @@ import Link from "next/link"
 import { createReceiptAction } from "../actions"
 import { BackButton } from "@/components/ui/back-button"
 import { formatCurrency } from "@/lib/utils"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+import { queueOfflineOperation } from "@/lib/offline-sync"
 
 type ItemData = {
   id: string
@@ -22,8 +25,10 @@ type ItemData = {
 }
 
 export default function ReceiptForm({ suppliers, warehouses, products, locations }: any) {
+  const router = useRouter()
   const [warehouseId, setWarehouseId] = useState("")
   const [items, setItems] = useState<ItemData[]>([])
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const filteredLocations = warehouseId ? locations.filter((l: any) => l.warehouseId === warehouseId) : []
 
@@ -45,6 +50,42 @@ export default function ReceiptForm({ suppliers, warehouses, products, locations
 
   const total = items.reduce((sum, item) => sum + (item.quantity * item.unitCost), 0)
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (items.length === 0) {
+      toast.error("Adicione pelo menos um produto para o recebimento.")
+      return
+    }
+
+    const formData = new FormData(e.currentTarget)
+    const actionType = (e.nativeEvent as any).submitter?.value || "DRAFT"
+    formData.set("actionType", actionType)
+
+    setIsSubmitting(true)
+
+    if (!navigator.onLine) {
+      const payload = Object.fromEntries(formData.entries())
+      payload.items = items as any
+      try {
+        await queueOfflineOperation('CREATE_RECEIPT', payload)
+        toast.success("Salvo localmente (Offline). Será sincronizado automaticamente.")
+        router.push("/receipts")
+      } catch (err: any) {
+        toast.error("Erro ao salvar offline: " + err.message)
+        setIsSubmitting(false)
+      }
+      return
+    }
+
+    try {
+      await createReceiptAction(formData)
+    } catch (err) {
+      toast.error("Erro ao processar recebimento.")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <>
       <div className="flex items-center gap-4">
@@ -57,7 +98,7 @@ export default function ReceiptForm({ suppliers, warehouses, products, locations
 
       <Card>
         <CardContent className="p-6">
-          <form action={createReceiptAction} className="space-y-8">
+          <form onSubmit={handleSubmit} className="space-y-8">
             {/* Cabeçalho */}
             <div className="space-y-4">
               <h3 className="text-lg font-medium border-b pb-2">Dados do Recebimento</h3>
@@ -209,12 +250,12 @@ export default function ReceiptForm({ suppliers, warehouses, products, locations
                 <Button type="button" variant="outline">Cancelar</Button>
               </Link>
               
-              <Button type="submit" name="actionType" value="DRAFT" variant="secondary" className="flex items-center gap-2">
+              <Button disabled={isSubmitting} type="submit" name="actionType" value="DRAFT" variant="secondary" className="flex items-center gap-2">
                 <Save className="h-4 w-4" />
                 Salvar Rascunho
               </Button>
 
-              <Button type="submit" name="actionType" value="COMPLETED" className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
+              <Button disabled={isSubmitting} type="submit" name="actionType" value="COMPLETED" className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
                 <CheckCircle className="h-4 w-4" />
                 Finalizar e Atualizar Estoque
               </Button>

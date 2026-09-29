@@ -3,10 +3,12 @@
 import { db } from "@/lib/db"
 import { redirect } from "next/navigation"
 import { getSession } from "@/lib/auth"
+import { requirePermission } from "@/lib/permissions"
 
 export async function createProductAction(formData: FormData) {
   const session = await getSession()
   if (!session) redirect("/login")
+  await requirePermission('PRODUCT_CREATE')
 
   let code = formData.get("code") as string
   const barcode = formData.get("barcode") as string || null
@@ -83,6 +85,7 @@ export async function createProductAction(formData: FormData) {
 export async function updateProductAction(formData: FormData) {
   const session = await getSession()
   if (!session) redirect("/login")
+  await requirePermission('PRODUCT_UPDATE')
 
   const id = formData.get("id") as string
   const code = formData.get("code") as string
@@ -137,6 +140,7 @@ export async function updateProductAction(formData: FormData) {
 export async function deleteProduct(id: string) {
   const session = await getSession()
   if (!session) throw new Error("Unauthorized")
+  await requirePermission('PRODUCT_DELETE')
 
   try {
     await db.product.delete({

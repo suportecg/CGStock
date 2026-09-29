@@ -16,8 +16,8 @@ export function ThemeToggle() {
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
       className="rounded-full"
     >
-      <Sun className="h-5 w-5 rotate-0 scale-100  dark:-rotate-90 dark:scale-0 text-muted-foreground dark:text-muted-foreground" />
-      <Moon className="absolute h-5 w-5 rotate-90 scale-0  dark:rotate-0 dark:scale-100 text-muted-foreground dark:text-muted-foreground" />
+      <Sun className="h-5 w-5 rotate-0 scale-100 dark:-rotate-90 dark:scale-0 text-foreground transition-all" />
+      <Moon className="absolute h-5 w-5 rotate-90 scale-0 dark:rotate-0 dark:scale-100 text-foreground transition-all" />
       <span className="sr-only">Trocar tema</span>
     </Button>
   )

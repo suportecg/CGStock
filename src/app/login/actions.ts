@@ -31,7 +31,7 @@ export async function loginAction(prevState: unknown, formData: FormData) {
     return { error: "Credenciais inválidas." }
   }
 
-  await createSession(user.id, user.name, user.email, user.roles.map((r: any) => r.name))
+  await createSession(user.id, user.name, user.email, user.roles.map((r: any) => r.name), user.mustChangePassword)
 
   return { success: true }
 }

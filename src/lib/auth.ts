@@ -9,6 +9,7 @@ export type SessionPayload = {
   name: string
   email: string
   roles: string[]
+  mustChangePassword?: boolean
   expiresAt: Date
 }
 
@@ -39,7 +40,7 @@ export async function decrypt(input: string): Promise<SessionPayload | null> {
   }
 }
 
-export async function createSession(userId: string, name: string, email: string, roles: string[]) {
+export async function createSession(userId: string, name: string, email: string, roles: string[], mustChangePassword: boolean = false) {
   const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000)
   
   const payload: SessionPayload = {
@@ -47,6 +48,7 @@ export async function createSession(userId: string, name: string, email: string,
     name,
     email,
     roles,
+    mustChangePassword,
     expiresAt,
   }
 

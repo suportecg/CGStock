@@ -6,6 +6,7 @@ import { db } from "@/lib/db"
 import Link from "next/link"
 import { Prisma } from "@prisma/client"
 import { MovementsFilterForm } from "./filter-form"
+import { format } from "date-fns"
 
 export default async function MovementsPage(props: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
@@ -167,7 +168,7 @@ export default async function MovementsPage(props: {
                   
                   <div className="flex items-center justify-between pt-2 border-t border-border">
                     <div className="flex flex-col text-xs text-muted-foreground">
-                      <span>{new Date(mov.createdAt).toLocaleString('pt-BR')}</span>
+                      <span>{format(new Date(mov.createdAt), 'dd/MM/yyyy HH:mm')}</span>
                       <span>Por: {mov.performedBy.name.split(' ')[0]}</span>
                     </div>
                     <Link href={`/movements/${mov.id}`}>
@@ -222,7 +223,7 @@ export default async function MovementsPage(props: {
                 return (
                   <TableRow key={mov.id}>
                     <TableCell className="whitespace-nowrap text-sm text-muted-foreground">
-                      {new Date(mov.createdAt).toLocaleString('pt-BR')}
+                      {format(new Date(mov.createdAt), 'dd/MM/yyyy HH:mm')}
                     </TableCell>
                     <TableCell className="font-medium">
                       <div className="text-foreground">{mov.product.name}</div>

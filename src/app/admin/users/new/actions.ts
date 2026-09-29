@@ -38,7 +38,8 @@ export async function createUserAction(prevState: any, formData: FormData) {
         roles: {
           connect: roleIds.map(id => ({ id }))
         },
-        status: "ACTIVE"
+        status: "ACTIVE",
+        mustChangePassword: formData.get("mustChangePassword") === "true"
       }
     })
   } catch (error) {

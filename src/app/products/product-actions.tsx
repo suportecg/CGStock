@@ -7,7 +7,7 @@ import Link from "next/link"
 import { QRCodeSVG } from "qrcode.react"
 import { createPortal } from "react-dom"
 
-export function ProductActions({ productId, productCode, productName }: { productId: string, productCode: string, productName: string }) {
+export function ProductActions({ productId, productCode, productName, hasUpdate = true, hasDelete = true }: { productId: string, productCode: string, productName: string, hasUpdate?: boolean, hasDelete?: boolean }) {
   const [isOpen, setIsOpen] = useState(false)
   const [showQrModal, setShowQrModal] = useState(false)
   const [mounted, setMounted] = useState(false)
@@ -85,12 +85,14 @@ export function ProductActions({ productId, productCode, productName }: { produc
 
       {isOpen && (
         <div className="absolute right-0 top-10 z-50 w-44 rounded-md border border-border bg-card  p-1.5 shadow-sm    ">
-          <Link href={`/products/${productId}/edit`}>
-            <button className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-foreground hover:bg-muted ">
-              <Pencil className="h-4 w-4 text-muted-foreground" />
-              Editar
-            </button>
-          </Link>
+          {hasUpdate && (
+            <Link href={`/products/${productId}/edit`}>
+              <button className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-foreground hover:bg-muted ">
+                <Pencil className="h-4 w-4 text-muted-foreground" />
+                Editar
+              </button>
+            </Link>
+          )}
           <button 
             onClick={() => {
               setIsOpen(false)
@@ -101,19 +103,21 @@ export function ProductActions({ productId, productCode, productName }: { produc
             <QrCode className="h-4 w-4 text-primary" />
             Etiqueta (QR Code)
           </button>
-          <button 
-            onClick={async () => {
-              if (window.confirm('Tem certeza que deseja excluir este produto?')) {
-                const { deleteProduct } = await import('./actions')
-                await deleteProduct(productId)
-                window.location.reload()
-              }
-            }}
-            className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50  mt-1"
-          >
-            <Trash2 className="h-4 w-4 text-red-600" />
-            Excluir
-          </button>
+          {hasDelete && (
+            <button 
+              onClick={async () => {
+                if (window.confirm('Tem certeza que deseja excluir este produto?')) {
+                  const { deleteProduct } = await import('./actions')
+                  await deleteProduct(productId)
+                  window.location.reload()
+                }
+              }}
+              className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50  mt-1"
+            >
+              <Trash2 className="h-4 w-4 text-red-600" />
+              Excluir
+            </button>
+          )}
         </div>
       )}
 

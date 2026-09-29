@@ -48,6 +48,7 @@ export async function editUserAction(prevState: any, formData: FormData) {
 
   if (password && password.length >= 6) {
     updateData.passwordHash = await bcrypt.hash(password, 10)
+    updateData.mustChangePassword = formData.get("mustChangePassword") === "true"
   }
 
   try {
