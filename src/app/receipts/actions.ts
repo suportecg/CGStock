@@ -25,7 +25,7 @@ export async function createReceiptAction(formData: FormData) {
   const actionType = formData.get("actionType") as string // "DRAFT" ou "COMPLETED"
 
   if (!supplierId || !warehouseId || productIds.length === 0) {
-    redirect("/receipts/new?error=missing_fields")
+    return { success: false, error: "missing_fields" }
   }
 
   try {
@@ -48,7 +48,7 @@ export async function createReceiptAction(formData: FormData) {
     }).filter(i => i.quantity > 0)
 
     if (itemsData.length === 0) {
-      redirect("/receipts/new?error=no_valid_items")
+      return { success: false, error: "no_valid_items" }
     }
 
     if (actionType === "DRAFT") {
@@ -69,8 +69,6 @@ export async function createReceiptAction(formData: FormData) {
       })
       await logAudit("RECEIPT_CREATED", "StockReceipt", receipt.id, { status: "DRAFT" })
     } else if (actionType === "COMPLETED") {
-      // Cria o recebimento, itens, movimentos e atualiza estoque (tudo numa transaction manual ou sequencial)
-      // Como o Prisma Client permite transações iterativas:
       await db.$transaction(async (tx) => {
         const receipt = await tx.stockReceipt.create({
           data: {
@@ -109,12 +107,11 @@ export async function createReceiptAction(formData: FormData) {
       })
     }
 
+    return { success: true }
   } catch (error) {
     console.error("Erro ao salvar recebimento", error)
-    redirect("/receipts/new?error=create_failed")
+    return { success: false, error: "create_failed" }
   }
-
-  redirect("/receipts")
 }
 
 export async function confirmReceiptAction(formData: FormData) {

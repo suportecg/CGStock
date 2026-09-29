@@ -36,7 +36,7 @@ export function UserForm({ roles }: { roles: { id: string, name: string }[] }) {
           id="email" 
           name="email" 
           type="email" 
-          placeholder="carlos@estoka.com" 
+          placeholder="carlos@cgconstrucoes.com" 
           required 
           className="bg-muted/50 focus-visible:ring-primary border-border"
         />

@@ -53,7 +53,7 @@ export function EditUserForm({ user, roles, worksites }: { user: User, roles: { 
           name="email" 
           type="email" 
           defaultValue={user.email}
-          placeholder="carlos@estoka.com" 
+          placeholder="carlos@cgconstrucoes.com" 
           required 
           className="bg-muted/50 focus-visible:ring-primary border-border"
         />

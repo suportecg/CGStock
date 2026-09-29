@@ -35,7 +35,7 @@ export const mockUsers: User[] = [
   {
     id: '4',
     name: 'Carlos Mendes',
-    email: 'carlos@estoka.com',
+    email: 'carlos@cgconstrucoes.com',
     role: 'Conferente',
     status: 'Inativo',
     lastAccess: '12/08/2026',

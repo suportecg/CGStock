@@ -78,9 +78,15 @@ export default function ReceiptForm({ suppliers, warehouses, products, locations
     }
 
     try {
-      await createReceiptAction(formData)
+      const result = await createReceiptAction(formData)
+      if (result?.success) {
+        toast.success("Recebimento processado com sucesso!")
+        router.push("/receipts")
+      } else {
+        toast.error(`Erro ao processar recebimento: ${result?.error}`)
+      }
     } catch (err) {
-      toast.error("Erro ao processar recebimento.")
+      toast.error("Erro inesperado ao processar recebimento.")
     } finally {
       setIsSubmitting(false)
     }
@@ -245,17 +251,17 @@ export default function ReceiptForm({ suppliers, warehouses, products, locations
               )}
             </div>
 
-            <div className="flex justify-end gap-3 pt-6 border-t">
-              <Link href="/receipts">
-                <Button type="button" variant="outline">Cancelar</Button>
+            <div className="flex flex-col sm:flex-row justify-end gap-3 pt-6 border-t">
+              <Link href="/receipts" className="w-full sm:w-auto">
+                <Button type="button" variant="outline" className="w-full">Cancelar</Button>
               </Link>
               
-              <Button disabled={isSubmitting} type="submit" name="actionType" value="DRAFT" variant="secondary" className="flex items-center gap-2">
+              <Button disabled={isSubmitting} type="submit" name="actionType" value="DRAFT" variant="secondary" className="w-full sm:w-auto flex items-center justify-center gap-2">
                 <Save className="h-4 w-4" />
                 Salvar Rascunho
               </Button>
 
-              <Button disabled={isSubmitting} type="submit" name="actionType" value="COMPLETED" className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
+              <Button disabled={isSubmitting} type="submit" name="actionType" value="COMPLETED" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
                 <CheckCircle className="h-4 w-4" />
                 Finalizar e Atualizar Estoque
               </Button>

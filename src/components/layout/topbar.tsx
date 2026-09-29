@@ -147,7 +147,6 @@ export function Topbar({ user }: { user?: { name: string; email: string; roles: 
           
           <Link href="/notifications" className="relative p-2 text-foreground hover:bg-muted rounded-md transition-colors">
             <Bell className="h-5 w-5" />
-            <span className="absolute right-1.5 top-1.5 flex h-2 w-2 rounded-full bg-red-500"></span>
           </Link>
 
           {user && (
