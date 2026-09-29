@@ -64,9 +64,9 @@ export function UsersClient({ users }: { users: any[] }) {
         </form>
       </div>
 
-      <div className="bg-card  rounded-md border border-border shadow-sm  overflow-hidden  ">
+      <div className="bg-card  rounded-md border border-[#5C3310]/50 shadow-sm  overflow-hidden  ">
         {/* Mobile View: Cards */}
-        <div className="md:hidden divide-y divide-border/50">
+        <div className="md:hidden divide-y divide-[#5C3310]/50">
           {users.map((user) => (
             <div key={user.id} className="p-4 space-y-4 hover:bg-muted/30 ">
               <div className="flex justify-between items-start gap-2">
@@ -98,7 +98,7 @@ export function UsersClient({ users }: { users: any[] }) {
                 ))}
               </div>
 
-              <div className="flex items-center justify-between pt-2 border-t border-border">
+              <div className="flex items-center justify-between pt-2 border-t border-[#5C3310]/50">
                 <div className="text-xs text-muted-foreground">
                   Desde {new Date(user.createdAt).toLocaleDateString('pt-BR')}
                 </div>
@@ -110,7 +110,7 @@ export function UsersClient({ users }: { users: any[] }) {
 
         {/* Desktop View: Table */}
         <div className="hidden md:block overflow-x-auto">
-          <Table>
+          <Table className="[&_tr]:border-[#5C3310]">
           <TableHeader>
             <TableRow>
               <TableHead className="w-[50px]">

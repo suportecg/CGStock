@@ -43,7 +43,7 @@ export default async function CollectorHomePage() {
         </div>
       </div>
 
-      <h2 className="text-muted-foreground font-semibold mb-4 ml-1">Inventários Disponíveis</h2>
+      <h2 className="text-slate-900 dark:text-muted-foreground font-semibold mb-4 ml-1">Inventários Disponíveis</h2>
 
       {activeInventories.length === 0 ? (
         <Card className="border-none shadow-sm rounded-md">
@@ -55,7 +55,7 @@ export default async function CollectorHomePage() {
         <div className="space-y-4">
           {activeInventories.map(inv => (
             <Card key={inv.id} className="border-none shadow-sm rounded-md overflow-hidden">
-              <div className="bg-card p-4 border-b">
+              <div className="bg-card p-4 border-b border-[#5C3310]">
                 <h3 className="font-bold text-lg text-foreground">{inv.name}</h3>
                 <p className="text-sm text-muted-foreground">{inv.code}</p>
               </div>
@@ -67,7 +67,7 @@ export default async function CollectorHomePage() {
                   <div className="space-y-1 mt-1">
                     {inv.locations.map(l => (
                       <Link key={l.id} href={`/collector/${inv.id}/${l.locationId}`}>
-                        <div className="flex items-center justify-between p-3 bg-card rounded-lg border border-gray-100 hover:border-primary/30  cursor-pointer">
+                        <div className="flex items-center justify-between p-3 bg-card rounded-lg border border-[#5C3310] hover:border-primary/50 cursor-pointer">
                           <span className="font-medium">{l.location.code}</span>
                           <ChevronRight className="h-5 w-5 text-muted-foreground" />
                         </div>

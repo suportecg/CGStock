@@ -37,7 +37,7 @@ export default async function PrintBadgesPage({
         </div>
         <div className="flex gap-4">
           <Link href="/admin/users">
-            <Button variant="outline" className="gap-2">
+            <Button className="gap-2 bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 shadow-sm">
               <ArrowLeft className="h-4 w-4" />
               Voltar
             </Button>
