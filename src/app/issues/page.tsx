@@ -50,9 +50,9 @@ export default async function IssuesPage({ searchParams }: { searchParams: Promi
         </div>
       </div>
 
-      <div className="bg-card  rounded-md border border-border shadow-sm  overflow-hidden  ">
+      <div className="bg-card  rounded-md border border-[#5C3310]/50 shadow-sm  overflow-hidden  ">
         {/* Mobile View: Cards */}
-        <div className="md:hidden divide-y divide-border">
+        <div className="md:hidden divide-y divide-[#5C3310]/50">
           {issues.length === 0 ? (
             <div className="p-6 text-center text-muted-foreground">
               Nenhuma saída registrada ainda.

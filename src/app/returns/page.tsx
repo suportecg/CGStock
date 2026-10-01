@@ -36,9 +36,9 @@ export default async function ReturnsPage() {
         </Link>
       </div>
 
-      <div className="bg-card  rounded-md border border-border shadow-sm  overflow-hidden  ">
+      <div className="bg-card  rounded-md border border-[#5C3310]/50 shadow-sm  overflow-hidden  ">
         {/* Mobile View: Cards */}
-        <div className="md:hidden divide-y divide-border">
+        <div className="md:hidden divide-y divide-[#5C3310]/50">
           {returns.length === 0 ? (
             <div className="p-6 text-center text-muted-foreground flex flex-col items-center">
               <RotateCcw className="h-10 w-10 text-muted-foreground/30 mb-3" />
